@@ -1,0 +1,5882 @@
+[
+  {
+    "id": "C000253",
+    "name": "ACID TURTLE",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000238",
+    "name": "ACID TURTLE",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000354",
+    "name": "AGNES DAY",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 3.5
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "UR"
+  },
+  {
+    "id": "C000257",
+    "name": "ALDEN BEAR",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000017",
+    "name": "ALDEN BEAR",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000015",
+    "name": "ALLIGATOR SMITH",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000075",
+    "name": "ANONYMOUS",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "聖",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000071",
+    "name": "ANONYMOUS",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "聖",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000037",
+    "name": "BEST CONDITION",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000355",
+    "name": "BEST CONDITION",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000196",
+    "name": "BOSSHAIR",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000187",
+    "name": "BOSSHAIR",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000046",
+    "name": "BOX EYE",
+    "legacy": "制",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000047",
+    "name": "BOX EYE",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000050",
+    "name": "BOX OUT",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000056",
+    "name": "BOX OUT",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000340",
+    "name": "BUTTER SKY",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000248",
+    "name": "BUTTER SKY",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000055",
+    "name": "CANCEL CULTURES",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000283",
+    "name": "CANDY FOX",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000033",
+    "name": "CANDY FOX",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000259",
+    "name": "CASTLE LAND",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000069",
+    "name": "CELL BUG",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "聖",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000073",
+    "name": "CELL BUG",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "聖",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000093",
+    "name": "CHARLIE THE FROG",
+    "legacy": "環",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000345",
+    "name": "CHARLIE THE FROG",
+    "legacy": "環",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "UR"
+  },
+  {
+    "id": "C000329",
+    "name": "CHARLIE THE FROG",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000104",
+    "name": "CHIHUAHUA GANG",
+    "legacy": "愛",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000043",
+    "name": "CHIHUAHUA GANG",
+    "legacy": "愛",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000383",
+    "name": "CHURCH & HILL BROTERS",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000382",
+    "name": "CHURCH & HILL BROTERS",
+    "legacy": "制",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000126",
+    "name": "CHURCHILL GENESIS",
+    "legacy": "聖",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000121",
+    "name": "CHURCHILL GENESIS",
+    "legacy": "聖",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SUR"
+  },
+  {
+    "id": "C000031",
+    "name": "CHURCHILL ROBITS",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000361",
+    "name": "CHURCHLL DRAGON",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000172",
+    "name": "CHURCHLL DRAGON",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000386",
+    "name": "CULT GAMER",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000190",
+    "name": "CYCOPICS",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000204",
+    "name": "DABA",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000505",
+    "name": "DADDY SMITH",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 3.0
+      },
+      {
+        "legacy": "邪",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SUR"
+  },
+  {
+    "id": "C000496",
+    "name": "DADDY SMITH",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000035",
+    "name": "DADDY SMITH",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000103",
+    "name": "DADDY SMITH",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000351",
+    "name": "DADY SMITH",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.5
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "UR"
+  },
+  {
+    "id": "C000114",
+    "name": "DAEMON BROTHERS",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000192",
+    "name": "DAEMON BROTHERS",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000113",
+    "name": "DARK GENESIS",
+    "legacy": "邪",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "環",
+        "value": 1.0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "UR"
+  },
+  {
+    "id": "C000119",
+    "name": "DARKNESS SMITH",
+    "legacy": "邪",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "環",
+        "value": 1.0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000095",
+    "name": "DING DONG",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000021",
+    "name": "DING DONG",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000140",
+    "name": "DINOSOR LEX",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000342",
+    "name": "DINOSOR LEX",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000082",
+    "name": "DR.OCTAM",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "聖",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000027",
+    "name": "DR.WOODEN",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000335",
+    "name": "Dr.CEREAL",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000110",
+    "name": "Dr.EARF",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000390",
+    "name": "Dr.EARF",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.5
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000226",
+    "name": "Dr.EARF",
+    "legacy": "制",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000019",
+    "name": "FAIRY",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000020",
+    "name": "FAIRY",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000250",
+    "name": "FAIRY EAT",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000052",
+    "name": "FIRE EAT",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000004",
+    "name": "FIRE TIME",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000010",
+    "name": "FIRE TIME",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000231",
+    "name": "FLYING TOM",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000002",
+    "name": "FLYING TOM",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000331",
+    "name": "FLYING TOM",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000232",
+    "name": "FRESH",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000387",
+    "name": "FUCKINGCAR",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000212",
+    "name": "GAME BOYZ",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000186",
+    "name": "GAME BOYZ",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000068",
+    "name": "GAME OVER",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "聖",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000230",
+    "name": "GEL THE HAT",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000066",
+    "name": "GIRL NEXT GOA",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000111",
+    "name": "GIRLS POWER",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000391",
+    "name": "GLARE BRIDGE",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000058",
+    "name": "GREEN MOBLEY",
+    "legacy": "制",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000392",
+    "name": "G•BOYZ",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000366",
+    "name": "G•BOYZ",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000251",
+    "name": "HEDORO NO OWARI",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000343",
+    "name": "HEDORONOOWARI",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000344",
+    "name": "HEDORONOOWARI",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000264",
+    "name": "HOLLY GLU",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000395",
+    "name": "HORI SEN-PAI",
+    "legacy": "聖",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000260",
+    "name": "HULK EYES",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000348",
+    "name": "HULK EYES",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000501",
+    "name": "IMAGINE MONSTER",
+    "legacy": "聖",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SUR"
+  },
+  {
+    "id": "C000249",
+    "name": "INSECT",
+    "legacy": "環",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000300",
+    "name": "JAW SIX",
+    "legacy": "制",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000393",
+    "name": "JESUSUST",
+    "legacy": "聖",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000221",
+    "name": "JOURNEY",
+    "legacy": "聖",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000023",
+    "name": "JOYALL",
+    "legacy": "環",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000199",
+    "name": "JUDGE THE FANTASY",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000083",
+    "name": "JUDGE THE TWISTED FANTASY",
+    "legacy": "聖",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "UR",
+    "suggestedNpcLevel": "Lv4",
+    "battleStreetRarity": "SUR"
+  },
+  {
+    "id": "C000281",
+    "name": "JUSTIN BEAR",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000358",
+    "name": "JUSTIN BEAR",
+    "legacy": "愛",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000016",
+    "name": "K.(Dot)",
+    "legacy": "環",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000007",
+    "name": "K.(Dot)",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000276",
+    "name": "KANICITY GIRL",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000362",
+    "name": "KANICITY GIRL",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000014",
+    "name": "KILLER FISH",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000013",
+    "name": "KILLER FISH",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000051",
+    "name": "KILLER KILLER",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000189",
+    "name": "KILLER KILLER",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000105",
+    "name": "KIMPO",
+    "legacy": "愛",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000504",
+    "name": "KING YETI",
+    "legacy": "邪",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SUR"
+  },
+  {
+    "id": "C000503",
+    "name": "KING YETI",
+    "legacy": "環",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000207",
+    "name": "LONG LEGS",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000194",
+    "name": "LYAGAN",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000285",
+    "name": "Life Saver",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000045",
+    "name": "MAGIC OCT",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000099",
+    "name": "MAGIC THE CATHERINE",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000176",
+    "name": "MAGIC THE CATHERINE",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000164",
+    "name": "MAGIC THE CATHERINE",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000219",
+    "name": "MASTER JESUS",
+    "legacy": "聖",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000389",
+    "name": "MASTER OF NERIMA",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000117",
+    "name": "MASTER OF TERROR",
+    "legacy": "邪",
+    "monsterPride": 6,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "環",
+        "value": 2.0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SSUR"
+  },
+  {
+    "id": "C000339",
+    "name": "MASTER PEACE",
+    "legacy": "環",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000195",
+    "name": "MATSUMOTO DIE",
+    "legacy": "制",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000213",
+    "name": "MATSUMOTO DIE",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000255",
+    "name": "MINCE GUY",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000224",
+    "name": "MINCE GUY",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000185",
+    "name": "MIX",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000203",
+    "name": "MOGUL",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000124",
+    "name": "MOGUL",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000336",
+    "name": "MOONRISE",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000337",
+    "name": "MOONRISE",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000059",
+    "name": "MOUJA",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000008",
+    "name": "MOUNT RED EYE",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000018",
+    "name": "MOUNT RED EYE",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000072",
+    "name": "MR.INTERNET",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "聖",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "UR",
+    "suggestedNpcLevel": "Lv4",
+    "battleStreetRarity": "SUR"
+  },
+  {
+    "id": "C000067",
+    "name": "MR.INTERNET",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "聖",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000271",
+    "name": "NACHOS DOGGY",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000282",
+    "name": "NACHOS DOGGY",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000229",
+    "name": "NATIVE ZONE",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000239",
+    "name": "NATURE KING",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000005",
+    "name": "NATURE KING",
+    "legacy": "環",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000003",
+    "name": "NEW ALLIGATOR",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000360",
+    "name": "NEXT LEVEL",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000171",
+    "name": "NEXT LEVEL",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000038",
+    "name": "NEXT LEVEL",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000357",
+    "name": "NN•COOL•C",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000356",
+    "name": "NN•COOL•C",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000500",
+    "name": "NN•COOL•C",
+    "legacy": "愛",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000217",
+    "name": "NO DAMAGE",
+    "legacy": "聖",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000385",
+    "name": "NOROVIRUS",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000261",
+    "name": "NUJABIS",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000022",
+    "name": "OCEAN EYE",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000349",
+    "name": "OG NUJABIS",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000350",
+    "name": "OG SILENT DEVILE",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000367",
+    "name": "OG-DAEMON BROTHERS",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000370",
+    "name": "OG-LYAGAN",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000363",
+    "name": "OG-Life Saver",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000396",
+    "name": "OG-PSYCHO JESUS",
+    "legacy": "聖",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000330",
+    "name": "OLD CAT",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000057",
+    "name": "ON THE DESTROY",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000039",
+    "name": "ONLY BROWN",
+    "legacy": "愛",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000001",
+    "name": "PANTHER",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000256",
+    "name": "PEACE NATURE",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000049",
+    "name": "PELE",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000048",
+    "name": "PELE",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000218",
+    "name": "PHINX",
+    "legacy": "聖",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000202",
+    "name": "POLL",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000210",
+    "name": "POLL",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000191",
+    "name": "POWERS",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000234",
+    "name": "PSYCHE PEOPLE",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000080",
+    "name": "PSYCHO JESUS",
+    "legacy": "聖",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000220",
+    "name": "PSYCHO JESUS",
+    "legacy": "聖",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000201",
+    "name": "PSYCHOHEAD HUNT",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000197",
+    "name": "PSYCHOHEAD HUNT",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000373",
+    "name": "PUNCHING NOSE",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000209",
+    "name": "PUNCHING NOSE",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000054",
+    "name": "QUEENS AVE",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000060",
+    "name": "QUEENS AVE",
+    "legacy": "制",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000352",
+    "name": "RAP MASTER",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 3.0
+      },
+      {
+        "legacy": "邪",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SUR"
+  },
+  {
+    "id": "C000268",
+    "name": "RED THING",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000184",
+    "name": "REVOLUTION MAKER",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000364",
+    "name": "REVOLUTIONMAKER",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000193",
+    "name": "ROADMAN",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000028",
+    "name": "ROLLA",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000272",
+    "name": "ROLLA",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000044",
+    "name": "ROLLA",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000112",
+    "name": "ROOTS",
+    "legacy": "聖",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000116",
+    "name": "ROOTS",
+    "legacy": "聖",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000036",
+    "name": "SCISSOR HEARTS",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000029",
+    "name": "SCISSOR HEARTS",
+    "legacy": "愛",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000265",
+    "name": "SEPTEMBER BOY",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000168",
+    "name": "SEPTEMBER BOY",
+    "legacy": "愛",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000497",
+    "name": "SEPTEMBER BOY",
+    "legacy": "聖",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000065",
+    "name": "SEPTEMBER SHOCK",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000262",
+    "name": "SILENT DEVILE",
+    "legacy": "愛",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000275",
+    "name": "SIMPLOOKS",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000188",
+    "name": "SITRAD",
+    "legacy": "制",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000333",
+    "name": "SNAKE TONGUE",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000381",
+    "name": "SPACE BUTLER",
+    "legacy": "制",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000243",
+    "name": "SPEAK BOY",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000254",
+    "name": "SPEAK GUY",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000222",
+    "name": "SPEAK GUY",
+    "legacy": "聖",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "UR"
+  },
+  {
+    "id": "C000245",
+    "name": "SPEAK GUY",
+    "legacy": "環",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000359",
+    "name": "SPECIAL MOTHER",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000280",
+    "name": "SPECIAL MOTHER",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000096",
+    "name": "STACK HOUSE",
+    "legacy": "環",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000061",
+    "name": "STAR MAKER",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000062",
+    "name": "STAR MAKER",
+    "legacy": "制",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000240",
+    "name": "STRONG RASTER",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000064",
+    "name": "SUNNY SCOTCH",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000279",
+    "name": "SUPER DAUGHITER",
+    "legacy": "愛",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000100",
+    "name": "SUPER DAUGHTER",
+    "legacy": "愛",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000118",
+    "name": "SUPER DAUGHTER",
+    "legacy": "聖",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "邪",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000070",
+    "name": "THE STUDENT",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "聖",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000076",
+    "name": "THE STUDENT",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "聖",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "UR",
+    "suggestedNpcLevel": "Lv4",
+    "battleStreetRarity": "SUR"
+  },
+  {
+    "id": "C000258",
+    "name": "THIS IS NATURE",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000347",
+    "name": "THIS IS NATURE",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "SR"
+  },
+  {
+    "id": "C000206",
+    "name": "THUNDER FAT",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000365",
+    "name": "THUNDER FAT",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000235",
+    "name": "TIGER JOE",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000063",
+    "name": "TIME WARP",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000388",
+    "name": "TOMASONⅡ",
+    "legacy": "制",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000134",
+    "name": "TUSCAC",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000334",
+    "name": "TWIST COBRA",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000094",
+    "name": "TWIST COBRA",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000042",
+    "name": "UGLY MASK",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000040",
+    "name": "UGLY MASK",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000208",
+    "name": "UNDEAD HONEZUKA",
+    "legacy": "制",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000328",
+    "name": "VENOMBUSTERS",
+    "legacy": "制",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000267",
+    "name": "VENUS EDITION",
+    "legacy": "愛",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000034",
+    "name": "VENUS EDITION",
+    "legacy": "愛",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000246",
+    "name": "VIK",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000338",
+    "name": "VIK",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000241",
+    "name": "VOIDON",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000024",
+    "name": "VOODOO MASTER",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000371",
+    "name": "WARP BOB HEAD",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000200",
+    "name": "WARP BOB HEAD",
+    "legacy": "制",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000053",
+    "name": "WARP BOB HEAD",
+    "legacy": "制",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "環",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000006",
+    "name": "WEATHER BIRD",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000237",
+    "name": "WEATHER BIRD",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000011",
+    "name": "YAHMAN NATURE",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000493",
+    "name": "YAHMAN NATURE",
+    "legacy": "環",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 3.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "R",
+    "suggestedNpcLevel": "Lv2",
+    "battleStreetRarity": "R"
+  },
+  {
+    "id": "C000090",
+    "name": "YAHMAN NATURE",
+    "legacy": "環",
+    "monsterPride": 3,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000125",
+    "name": "YAHMAN NATURE",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000026",
+    "name": "YEEDUS",
+    "legacy": "環",
+    "monsterPride": 5,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": true,
+    "rarity": "SR",
+    "suggestedNpcLevel": "Lv3",
+    "battleStreetRarity": "UR"
+  },
+  {
+    "id": "C000025",
+    "name": "YEEDUS",
+    "legacy": "環",
+    "monsterPride": 4,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000077",
+    "name": "YONG DOOM",
+    "legacy": "邪",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 2.0
+      },
+      {
+        "legacy": "制",
+        "value": 2.0
+      },
+      {
+        "legacy": "環",
+        "value": 2.0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "UR",
+    "suggestedNpcLevel": "Lv4",
+    "battleStreetRarity": "SUR"
+  },
+  {
+    "id": "C000284",
+    "name": "ZAKIYAMAEROIZE",
+    "legacy": "愛",
+    "monsterPride": 1,
+    "potentialPoints": [
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      },
+      {
+        "legacy": "未使用",
+        "value": 0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "N"
+  },
+  {
+    "id": "C000216",
+    "name": "ZERO",
+    "legacy": "邪",
+    "monsterPride": 2,
+    "potentialPoints": [
+      {
+        "legacy": "愛",
+        "value": 1.0
+      },
+      {
+        "legacy": "制",
+        "value": 1.0
+      },
+      {
+        "legacy": "環",
+        "value": 1.0
+      }
+    ],
+    "hasVoid": false,
+    "rarity": "N",
+    "suggestedNpcLevel": "Lv1",
+    "battleStreetRarity": "R"
+  }
+]
