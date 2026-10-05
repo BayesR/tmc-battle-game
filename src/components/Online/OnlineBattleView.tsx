@@ -3,6 +3,7 @@ import type { DeckCard } from '../../types/card';
 import type { OnlineClient, ClientSnapshot } from '../../online/client';
 import type { OnlineView } from '../../online/types';
 import { useCountdownSeconds } from '../../hooks/useOnlineRoom';
+import { PULL_UP_MS, isPullingUp, layoutBoard } from '../../online/pullUp';
 import { BattleBoard } from '../Battle/BattleBoard';
 import { HandSelector } from '../Battle/HandSelector';
 import { RoundResult } from '../Battle/RoundResult';
@@ -42,13 +43,26 @@ export function OnlineBattleView({ view, client, snapshot }: Props) {
     setSelectedId(null);
   }, [roundCount, view.phase]);
 
+  // 「PULL UP」演出：公開まで表示し終えたラウンド数。最初に表示した時点で公開済みのラウンドは、演出なしで表示する
+  const [revealedCount, setRevealedCount] = useState(roundCount);
+  useEffect(() => {
+    if (view.phase !== 'reveal') {
+      if (revealedCount !== roundCount) setRevealedCount(roundCount);
+      return;
+    }
+    if (roundCount > revealedCount) {
+      const id = window.setTimeout(() => setRevealedCount(roundCount), PULL_UP_MS);
+      return () => window.clearTimeout(id);
+    }
+  }, [view.phase, roundCount, revealedCount]);
+  const pulling = isPullingUp(view.phase, roundCount, revealedCount);
+
   const enemyName = view.enemyPlayer?.name ?? '相手';
   const pickSeconds = useCountdownSeconds(snapshot.timers?.pickDeadlineAt, client);
   const revealSeconds = useCountdownSeconds(snapshot.timers?.revealDeadlineAt, client);
 
   const lockedCard = view.selfPickId ? view.selfRemaining.find((c) => c.instanceId === view.selfPickId) : undefined;
-  const pendingCards = view.phase === 'pick' && lockedCard ? { selfCard: lockedCard, enemyCard: HIDDEN_CARD } : null;
-  const revealIndex = view.phase === 'reveal' ? view.board.length - 1 : -1;
+  const layout = layoutBoard({ phase: view.phase, board: view.board, pulling, lockedCard, hiddenCard: HIDDEN_CARD });
 
   const isFinalStep =
     view.phase === 'reveal' &&
@@ -59,7 +73,19 @@ export function OnlineBattleView({ view, client, snapshot }: Props) {
     <div className="flex flex-col gap-4">
       <ScoreBoard state={{ rounds: view.rounds, isSuddenDeath: view.isSuddenDeath, npc: { name: enemyName } }} selfName={view.selfPlayer?.name ?? 'あなた'} />
 
-      <BattleBoard board={view.board} revealIndex={revealIndex} pendingCards={pendingCards} pendingLabel="確定" />
+      <BattleBoard
+        board={layout.board}
+        revealIndex={layout.revealIndex}
+        pendingCards={layout.pendingCards}
+        pendingLabel={pulling ? 'PULL UP' : '確定'}
+      />
+
+      {pulling && (
+        <div className="text-center" data-testid="pullup-banner">
+          <p className="animate-pulse text-xl font-black tracking-[0.3em] text-amber-300">PULL UP!</p>
+          <p className="text-[11px] text-zinc-400">両者決定！カードを公開します</p>
+        </div>
+      )}
 
       {view.phase === 'pick' && (
         <div className="flex flex-col gap-2">
@@ -97,7 +123,7 @@ export function OnlineBattleView({ view, client, snapshot }: Props) {
         </div>
       )}
 
-      {view.phase === 'reveal' && view.lastRound && (
+      {view.phase === 'reveal' && view.lastRound && !pulling && (
         <div className="flex flex-col gap-1">
           <RoundResult
             round={view.lastRound}

@@ -6,8 +6,8 @@
 /** カード選択の制限時間。時間切れになったら、未選択の席は残りカードからランダムに自動選択される */
 export const PICK_TIME_MS = 60_000;
 
-/** 結果公開後、両者が「次へ」を押さなくても自動で次へ進むまでの時間 */
-export const REVEAL_AUTO_ADVANCE_MS = 8_000;
+/** 結果公開後、両者が「次へ」を押さなくても自動で次へ進むまでの時間（PULL UP演出の約1.5秒を含む） */
+export const REVEAL_AUTO_ADVANCE_MS = 10_000;
 
 /** 切断してから不戦敗になるまでの猶予（この間に戻ってくれば席に復帰できる） */
 export const DISCONNECT_GRACE_MS = 60_000;
