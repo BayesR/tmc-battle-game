@@ -71,6 +71,8 @@ npm run smoke:online -- wss://tmc-online.<あなたのサブドメイン>.worker
 
 ## よくあるつまずき
 
+- `npm install` で `ERESOLVE could not resolve`：部品（wrangler / partyserver / @cloudflare/workers-types）のバージョンの組み合わせが合っていません。`package.json` の3つのバージョンを、エラーに出ている最新の組み合わせに合わせてください（2026年10月時点では、workers-types は 5系）
+
 - `wrangler dev` で `Address already in use`：段階1の開発用サーバーが動いたままです。止めてから実行してください
 - `wrangler deploy` で認証エラー：`npx wrangler login` をやり直してください
 - ブラウザの画面から接続できず、サーバー側のログに `403`：`ALLOWED_ORIGINS` に、その画面のURLを追加してください

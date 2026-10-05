@@ -95,3 +95,37 @@ export function parseClientMessage(raw: unknown): ClientMessage | null {
       return null;
   }
 }
+
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
+
+/**
+ * サーバーから届いた生の文字列を ServerMessage に変換する（クライアント側の防御的な検証）。
+ * サーバーは自分たちのものだが、バージョンのずれ（古い画面と新しいサーバー）で想定外の形が届いても、
+ * 画面が例外で止まらないよう、最低限の構造だけを確かめて、合わなければ null にする。
+ */
+export function parseServerMessage(raw: unknown): ServerMessage | null {
+  if (typeof raw !== 'string') return null;
+  let data: unknown;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+  if (!isRecord(data)) return null;
+
+  if (data.t === 'error') {
+    if (typeof data.code !== 'string' || typeof data.message !== 'string') return null;
+    return { t: 'error', code: data.code, message: data.message };
+  }
+
+  if (data.t === 'state') {
+    const { view, timers, connected, spectators } = data;
+    if (!isRecord(view) || typeof view.phase !== 'string' || typeof view.perspective !== 'string') return null;
+    if (!Array.isArray(view.rounds) || !Array.isArray(view.board) || !Array.isArray(view.selfRemaining)) return null;
+    if (!isRecord(timers) || typeof timers.serverNow !== 'number') return null;
+    if (!isRecord(connected) || typeof connected.self !== 'boolean' || typeof connected.enemy !== 'boolean') return null;
+    if (typeof spectators !== 'number') return null;
+    return data as unknown as ServerMessage;
+  }
+  return null;
+}

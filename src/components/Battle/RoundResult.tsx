@@ -4,6 +4,9 @@ interface Props {
   round: RoundRecord;
   onNext: () => void;
   isFinalStep: boolean;
+  /** ボタンの文言を上書きする（オンライン対戦の「相手の確認待ち…」など） */
+  nextLabel?: string;
+  nextDisabled?: boolean;
 }
 
 const WINNER_LABEL: Record<RoundRecord['result']['winner'], string> = {
@@ -22,7 +25,7 @@ const WINNER_COLOR: Record<RoundRecord['result']['winner'], string> = {
  * 1ラウンドの勝敗結果バナー。
  * カード自体は BattleBoard（盤面）に表示済みのため、ここではテキストとエフェクトのみを表示する。
  */
-export function RoundResult({ round, onNext, isFinalStep }: Props) {
+export function RoundResult({ round, onNext, isFinalStep, nextLabel, nextDisabled }: Props) {
   const { result } = round;
   return (
     <div
@@ -57,9 +60,12 @@ export function RoundResult({ round, onNext, isFinalStep }: Props) {
 
       <button
         onClick={onNext}
-        className="w-full max-w-xs rounded-full bg-sky-500 py-2.5 text-sm font-extrabold text-white hover:bg-sky-400 active:scale-[0.98]"
+        disabled={nextDisabled}
+        className={`w-full max-w-xs rounded-full py-2.5 text-sm font-extrabold text-white active:scale-[0.98] ${
+          nextDisabled ? 'cursor-not-allowed bg-zinc-700 text-zinc-400' : 'bg-sky-500 hover:bg-sky-400'
+        }`}
       >
-        {isFinalStep ? '結果を見る' : '次のラウンドへ'}
+        {nextLabel ?? (isFinalStep ? '結果を見る' : '次のラウンドへ')}
       </button>
     </div>
   );

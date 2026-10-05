@@ -12,6 +12,8 @@ import { RarityEffectsStyle } from './components/common/RarityEffects';
 import { BattleStreetScreen } from './components/BattleStreet/BattleStreetScreen';
 import { CardListScreen } from './components/CardList/CardListScreen';
 import { OptionsScreen } from './components/Options/OptionsScreen';
+import { OnlineScreen } from './components/Online/OnlineScreen';
+import { resolveOnlineEntry } from './online/entry';
 
 type GamePhase = 'deckbuilder' | 'battle' | 'result';
 
@@ -31,7 +33,18 @@ interface MatchSetup {
  */
 function App() {
   const cardPool = useMemo(() => loadCardPool(), []);
-  const [topScreen, setTopScreen] = useState<TopScreen>('title');
+
+  // オンライン対戦は、URLの ?online=1（または招待リンクの ?room=）がある時だけ有効にする（公開版には出さない）
+  const onlineEntry = useMemo(() => {
+    let storage: Storage | null = null;
+    try {
+      storage = window.sessionStorage;
+    } catch {
+      // sessionStorage が使えない環境
+    }
+    return resolveOnlineEntry(window.location.search, storage);
+  }, []);
+  const [topScreen, setTopScreen] = useState<TopScreen>(onlineEntry.enabled && onlineEntry.roomCode ? 'online' : 'title');
 
   const [phase, setPhase] = useState<GamePhase>('deckbuilder');
   const [matchSetup, setMatchSetup] = useState<MatchSetup | null>(null);
@@ -84,7 +97,11 @@ function App() {
           <p className="text-[11px] font-bold tracking-[0.2em] text-zinc-500">TMC BATTLE GAME</p>
         </div>
 
-        {topScreen === 'title' && <TitleScreen onNavigate={setTopScreen} />}
+        {topScreen === 'title' && <TitleScreen onNavigate={setTopScreen} showOnline={onlineEntry.enabled} />}
+
+        {topScreen === 'online' && onlineEntry.enabled && (
+          <OnlineScreen pool={cardPool} initialRoomCode={onlineEntry.roomCode} onBackToTitle={() => setTopScreen('title')} />
+        )}
 
         {topScreen === 'battle-street' && (
           <BattleStreetScreen pool={cardPool} onBackToTitle={() => setTopScreen('title')} />

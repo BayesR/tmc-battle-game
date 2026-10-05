@@ -1,11 +1,20 @@
-import type { MatchState } from '../../types/game';
+import type { RoundRecord } from '../../types/game';
+
+/** スコアボードの表示に必要な情報だけ（NPC対戦の MatchState も、オンライン対戦の状態もこの形を満たす） */
+export interface ScoreBoardState {
+  rounds: RoundRecord[];
+  isSuddenDeath: boolean;
+  npc: { name: string };
+}
 
 interface Props {
-  state: MatchState;
+  state: ScoreBoardState;
+  /** 自分側の表示名（省略時は「あなた」） */
+  selfName?: string;
 }
 
 /** 現在の勝敗数・ラウンド経過・サドンデス状態を表示するスコアボード */
-export function ScoreBoard({ state }: Props) {
+export function ScoreBoard({ state, selfName }: Props) {
   const wins = state.rounds.reduce(
     (acc, r) => {
       if (r.result.winner === 'self') acc.self += 1;
@@ -18,7 +27,7 @@ export function ScoreBoard({ state }: Props) {
   return (
     <div className="rounded-xl border border-zinc-700 bg-zinc-900/60 p-3">
       <div className="flex items-center justify-between text-sm font-bold text-white">
-        <span>あなた</span>
+        <span>{selfName ?? 'あなた'}</span>
         {state.isSuddenDeath ? (
           <span className="rounded-full bg-amber-500 px-2 py-0.5 text-[11px] text-black">サドンデス</span>
         ) : (

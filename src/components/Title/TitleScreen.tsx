@@ -1,11 +1,13 @@
-export type TopScreen = 'title' | 'battle-street' | 'npc-mode' | 'card-list' | 'options';
+export type TopScreen = 'title' | 'battle-street' | 'npc-mode' | 'online' | 'card-list' | 'options';
 
 interface Props {
   onNavigate: (screen: TopScreen) => void;
+  /** true の時だけ「オンライン対戦」ボタンを表示する（公開版では出さない。URLの ?online=1 で有効にする） */
+  showOnline?: boolean;
 }
 
 /** タイトル画面：バトルストリート／NPC対戦モード／所持カードリスト／オプションへの導線 */
-export function TitleScreen({ onNavigate }: Props) {
+export function TitleScreen({ onNavigate, showOnline = false }: Props) {
   return (
     <div className="flex flex-col items-center gap-8 pb-10 pt-16">
       <div className="text-center">
@@ -34,6 +36,17 @@ export function TitleScreen({ onNavigate }: Props) {
             テスト中
           </span>
         </button>
+        {showOnline && (
+          <button
+            onClick={() => onNavigate('online')}
+            className="relative rounded-xl bg-emerald-600 py-3 text-sm font-extrabold tracking-wide text-white hover:bg-emerald-500"
+          >
+            オンライン対戦
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/30 px-2 py-0.5 text-[10px]">
+              β
+            </span>
+          </button>
+        )}
         <button
           onClick={() => onNavigate('card-list')}
           className="rounded-xl bg-zinc-800 py-3 text-sm font-extrabold tracking-wide text-white hover:bg-zinc-700"

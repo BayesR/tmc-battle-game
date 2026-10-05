@@ -22,10 +22,12 @@ interface SlotProps {
   override: SlotOverride;
   onClick?: () => void;
   roundEffect?: RoundEffect;
+  /** 裏向きに置いた自分のカードに表示する文言（既定は「PULL UP」。オンライン対戦では「確定」など） */
+  pendingLabel?: string | null;
 }
 
 /** 盤面の1マス（表 or 裏でカード、まだ出ていなければ空き枠）。自分・相手ともに同じサイズで表示する */
-function BoardSlot({ record, side, override, onClick, roundEffect }: SlotProps) {
+function BoardSlot({ record, side, override, onClick, roundEffect, pendingLabel = 'PULL UP' }: SlotProps) {
   // CardView内のCARD_WIDTH.boardと合わせておく（空き枠のプレースホルダー用）
   const width = BOARD_SLOT_WIDTH;
   const height = Math.round(width * 1.4);
@@ -61,8 +63,8 @@ function BoardSlot({ record, side, override, onClick, roundEffect }: SlotProps) 
 
   // 裏向きでまだPull upしていない自分側のカードには「PULL UP」を表示し、タップを促す
   const isPendingSelfCard = override === 'down' && side === 'self';
-  const stampText = stamp?.text ?? (isPendingSelfCard ? 'PULL UP' : null);
-  const stampColor = stamp?.color ?? (isPendingSelfCard ? '#fbbf24' : undefined);
+  const stampText = stamp?.text ?? (isPendingSelfCard ? pendingLabel : null);
+  const stampColor = stamp?.color ?? (isPendingSelfCard && pendingLabel ? '#fbbf24' : undefined);
 
   return (
     <CardView
@@ -90,6 +92,8 @@ interface Props {
   pendingCards?: PendingCards | null;
   /** 裏向きに置かれたカード（自分・相手）をタップした際にPull upを実行するハンドラ */
   onPullUp?: () => void;
+  /** 裏向きに置いた自分のカードに表示する文言（既定は「PULL UP」） */
+  pendingLabel?: string | null;
 }
 
 /**
@@ -98,7 +102,7 @@ interface Props {
  * 自分・相手のカードは同じサイズで表示する。画面幅が足りない場合は横スクロールするが、
  * 相手列・自分列は1つの共有スクロール領域にまとめてあり、常に一緒に動く（列がずれない）。
  */
-export function BattleBoard({ board, revealIndex = -1, pendingCards = null, onPullUp }: Props) {
+export function BattleBoard({ board, revealIndex = -1, pendingCards = null, onPullUp, pendingLabel }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const slots: { record: SlotProps['record']; override: SlotOverride; pending: boolean }[] = Array.from({
@@ -161,6 +165,7 @@ export function BattleBoard({ board, revealIndex = -1, pendingCards = null, onPu
                 override={s.override}
                 onClick={s.pending ? onPullUp : undefined}
                 roundEffect={i === revealIndex ? roundEffects.enemy : null}
+                pendingLabel={pendingLabel}
               />
             ))}
           </div>
@@ -173,6 +178,7 @@ export function BattleBoard({ board, revealIndex = -1, pendingCards = null, onPu
                 override={s.override}
                 onClick={s.pending ? onPullUp : undefined}
                 roundEffect={i === revealIndex ? roundEffects.self : null}
+                pendingLabel={pendingLabel}
               />
             ))}
           </div>
