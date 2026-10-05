@@ -1,0 +1,15 @@
+{
+  "name": "tmc-online",
+  "main": "index.ts",
+  "compatibility_date": "2025-09-01",
+  "durable_objects": {
+    "bindings": [{ "name": "Room", "class_name": "Room" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }],
+  "vars": {
+    // 接続を許可するサイト。開発用のlocalhostと、公開中のゲームのURL。
+    // Vercelの確認用デプロイ（ブランチごとのURL）から接続する場合は、そのURLもここに追加する。
+    "ALLOWED_ORIGINS": "http://localhost:5173,https://tmc-battle-game.vercel.app",
+    "ALLOW_SPECTATORS": "false"
+  }
+}

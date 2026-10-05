@@ -25,3 +25,26 @@ export function withSeededMath<T>(seed: number, fn: () => T): T {
     Math.random = original;
   }
 }
+
+// ---------------------------------------------------------------------------
+// 合成カード：強さ（Monster Pride）だけで勝敗が決まる。PP・Voidなし。
+// ---------------------------------------------------------------------------
+const NO_PP = [
+  { legacy: '未使用', value: 0 },
+  { legacy: '未使用', value: 0 },
+  { legacy: '未使用', value: 0 },
+] as CardMaster['potentialPoints'];
+
+export const mkCard = (id: string, monsterPride: number): CardMaster => ({
+  id,
+  name: id,
+  legacy: '環',
+  monsterPride,
+  potentialPoints: NO_PP,
+  hasVoid: false,
+  rarity: 'N',
+  suggestedNpcLevel: 'Lv1',
+  battleStreetRarity: 'N',
+});
+
+export const deckOf = (prefix: string, mps: number[]): CardMaster[] => mps.map((mp, i) => mkCard(`${prefix}${i + 1}`, mp));

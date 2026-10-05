@@ -20,3 +20,13 @@ export const MAX_NAME_LENGTH = 20;
 
 /** 1つのルームに同時接続できる観戦者の上限（フェーズ1.5で使用） */
 export const MAX_SPECTATORS = 20;
+
+/**
+ * ロビー（相手の参加待ち）で切断した場合の猶予。
+ * 招待リンクをLINEなどで送るためにアプリを切り替えると、ブラウザの接続が切れることがあるため、
+ * 対戦中（DISCONNECT_GRACE_MS）より長くしてある。
+ */
+export const LOBBY_DISCONNECT_GRACE_MS = 300_000;
+
+/** 相手が参加しないままロビーを維持できる最大時間。過ぎるとルームは勝者なしで終了する */
+export const LOBBY_EXPIRE_MS = 1_800_000;
