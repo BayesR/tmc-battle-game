@@ -1,6 +1,7 @@
 import type { DeckCard, Legacy } from '../types/card';
 import type { MatchState, NpcProfile, RoundRecord, RoundWinner } from '../types/game';
 import { compareCards } from './compareCards';
+import { decideAfterReveal } from './matchRules';
 import { NPC_LEVEL_PROFILE, reaperBiasedOrder } from './npcDeckGenerator';
 
 /**
@@ -181,18 +182,6 @@ export function createInitialMatchState(): MatchState {
   };
 }
 
-function tallyWins(rounds: RoundRecord[]): { self: number; enemy: number; draw: number } {
-  return rounds.reduce(
-    (acc, r) => {
-      if (r.result.winner === 'self') acc.self += 1;
-      else if (r.result.winner === 'enemy') acc.enemy += 1;
-      else acc.draw += 1;
-      return acc;
-    },
-    { self: 0, enemy: 0, draw: 0 }
-  );
-}
-
 export function matchReducer(state: MatchState, action: MatchAction): MatchState {
   switch (action.type) {
     case 'INIT': {
@@ -286,54 +275,40 @@ export function matchReducer(state: MatchState, action: MatchAction): MatchState
     case 'NEXT': {
       if (state.phase !== 'reveal') return state;
 
-      // --- サドンデス中：決着がついていればそこで試合終了 ---
-      if (state.isSuddenDeath) {
-        const decided = state.lastRound && state.lastRound.result.winner !== 'draw';
-        if (decided) {
+      // 進行ルール（5戦→集計→サドンデス突入・再開）は matchRules.ts の共通ロジックで決める
+      const decision = decideAfterReveal({
+        isSuddenDeath: state.isSuddenDeath,
+        normalRounds: state.rounds,
+        lastRoundWinner: state.lastRound ? state.lastRound.result.winner : null,
+        selfRemainingCount: state.selfRemaining.length,
+        enemyRemainingCount: state.enemyRemaining.length,
+      });
+
+      switch (decision.kind) {
+        case 'match-over':
+          return { ...state, phase: 'match-over', matchWinner: decision.winner };
+        case 'next-round':
+          return { ...state, phase: 'select' };
+        case 'start-sudden-death':
+          // 同数 → サドンデス突入（同じ5枚の手札に戻す＝盤面クリア）
           return {
             ...state,
-            phase: 'match-over',
-            matchWinner: state.lastRound!.result.winner,
+            isSuddenDeath: true,
+            phase: 'select',
+            selfRemaining: shuffle(state.selfHand),
+            enemyRemaining: shuffle(state.enemyHand),
+            board: [],
           };
-        }
-        // まだ決着していない場合、この周回のカードが残っていれば選択画面へ
-        if (state.selfRemaining.length > 0 && state.enemyRemaining.length > 0) {
-          return { ...state, phase: 'select' };
-        }
-        // 同じ5枚を使い切ってなお全て引き分け → 同じ手札でもう一度サドンデス（盤面もクリア）
-        return {
-          ...state,
-          phase: 'select',
-          selfRemaining: shuffle(state.selfHand),
-          enemyRemaining: shuffle(state.enemyHand),
-          board: [],
-        };
+        case 'restart-sudden-death':
+          // 同じ5枚を使い切ってなお全て引き分け → 同じ手札でもう一度サドンデス（盤面もクリア）
+          return {
+            ...state,
+            phase: 'select',
+            selfRemaining: shuffle(state.selfHand),
+            enemyRemaining: shuffle(state.enemyHand),
+            board: [],
+          };
       }
-
-      // --- 通常5戦中 ---
-      if (state.rounds.length < 5) {
-        return { ...state, phase: 'select' };
-      }
-
-      // 5戦終了 → 勝敗数を集計
-      const tally = tallyWins(state.rounds);
-      if (tally.self !== tally.enemy) {
-        return {
-          ...state,
-          phase: 'match-over',
-          matchWinner: tally.self > tally.enemy ? 'self' : ('enemy' as RoundWinner),
-        };
-      }
-
-      // 同数 → サドンデス突入（同じ5枚の手札に戻す＝盤面クリア）
-      return {
-        ...state,
-        isSuddenDeath: true,
-        phase: 'select',
-        selfRemaining: shuffle(state.selfHand),
-        enemyRemaining: shuffle(state.enemyHand),
-        board: [],
-      };
     }
 
     default:
