@@ -3,3 +3,6 @@ dist
 .DS_Store
 *.local
 .wrangler
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
