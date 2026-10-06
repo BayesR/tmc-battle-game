@@ -54,12 +54,34 @@ npx wrangler deploy
 npm run smoke:online -- wss://tmc-online.<あなたのサブドメイン>.workers.dev
 ```
 
+## 更新したとき（サーバーの内容を変えたとき）
+
+サーバーの内容（`index.ts` や `../src/online/` の試合ルール）を更新したら、再デプロイします。
+
+```bash
+cd worker
+npx wrangler deploy
+```
+
+デプロイ後に、ゲーム本体のフォルダで通しの確認を実行してください（`npm run smoke:online -- wss://tmc-online.<サブドメイン>.workers.dev`）。
+通しの確認には、何も送らない接続を切る確認があり、完了まで約10秒余計にかかります。
+
+## 緊急停止スイッチ
+
+何か問題が起きたときに、新しい接続を全て断ります。
+
+1. `wrangler.jsonc` の `"ONLINE_ENABLED"` を `"false"` に書き換える
+2. `npx wrangler deploy`
+
+元に戻すときは、`"true"` に戻して、もう一度デプロイします。すでに接続中の対戦は、そのまま続きます。
+
 ## 設定（`wrangler.jsonc`）
 
 | 項目 | 内容 |
 |---|---|
 | `ALLOWED_ORIGINS` | ブラウザからの接続を許可するサイト（カンマ区切り）。Vercelの確認用デプロイ（ブランチごとのURL）から接続するときは、そのURLを追加する |
 | `ALLOW_SPECTATORS` | `"true"` で観戦を許可（フェーズ1.5で使用） |
+| `ONLINE_ENABLED` | `"false"` で、新しい接続を全て断る（緊急停止スイッチ） |
 
 ## 料金の目安（2026年10月時点の公式ドキュメントによる。デプロイ前に最新を確認してください）
 

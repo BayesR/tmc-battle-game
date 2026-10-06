@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { generateLevelTunedNpcDeck } from '../src/logic/npcDeckGenerator';
-import { DECK_TIME_MS, DISCONNECT_GRACE_MS, PICK_TIME_MS, REVEAL_AUTO_ADVANCE_MS } from '../src/online/constants';
+import { DECK_TIME_MS, DISCONNECT_GRACE_MS, FINISHED_LINGER_MS, HELLO_TIMEOUT_MS, PICK_TIME_MS, REVEAL_AUTO_ADVANCE_MS } from '../src/online/constants';
 import { CARD_POOL, withSeededMath } from './helpers';
 import { FakeConnection } from './stubs/partyserver';
 
@@ -182,6 +182,52 @@ test('切断（onClose / onError）はルームに伝わり、相手に通知さ
   }
 });
 
+test('接続した直後にも alarm が設定され、hello を送らない接続は期限で切られる', async () => {
+  fakeNow = 5_000_000;
+  const storage = new FakeStorage();
+  const d = await boot(storage);
+  const idle = await connect(d, 'idle');
+  assert.equal(storage.alarm, fakeNow + HELLO_TIMEOUT_MS, 'helloの期限の alarm');
+  fakeNow = storage.alarm!;
+  await d.onAlarm();
+  assert.ok(idle.closed, '期限が来た接続は閉じられる');
+  assert.equal(JSON.parse(idle.sent[idle.sent.length - 1]).code, 'hello-timeout');
+});
+
+test('終了後2分で alarm が来ると、接続が閉じられ、プラットフォームが閉じを通知すると保存データが片付く', async () => {
+  fakeNow = 5_000_000;
+  const { d, a, b, storage } = await startedRoom();
+  await say(d, a, { t: 'leave' }); // Aが退出して終了
+  assert.ok(a.closed);
+  await drop(d, a); // サーバーが閉じた接続について、プラットフォームから閉じの通知が来る
+  assert.equal(lastState(b).view.phase, 'finished');
+  assert.equal(storage.alarm, fakeNow + FINISHED_LINGER_MS, '閉じる時刻の alarm');
+  fakeNow = storage.alarm!;
+  await d.onAlarm();
+  assert.ok(b.closed, '期限が来たら、残っている接続も閉じられる');
+  assert.ok(storage.data.has('snapshot'), 'プラットフォームから閉じの通知が来るまでは、保存したまま');
+  await drop(d, b);
+  assert.equal(storage.data.size, 0);
+  assert.equal(storage.alarm, null);
+});
+
+test('再戦の操作が、保存と alarm の更新を伴って動く', async () => {
+  fakeNow = 5_000_000;
+  const { d, a, b, storage } = await startedRoom();
+  // 速く終わらせる：時間切れの自動進行を繰り返す
+  for (let i = 0; i < 40 && lastState(a).view.phase !== 'finished'; i++) {
+    fakeNow = storage.alarm!;
+    await d.onAlarm();
+  }
+  assert.equal(lastState(a).view.phase, 'finished');
+  await say(d, a, { t: 'rematch' });
+  await say(d, b, { t: 'rematch' });
+  assert.equal(lastState(a).view.phase, 'deck');
+  assert.equal(lastState(a).view.matchNumber, 2);
+  assert.equal(storage.alarm, fakeNow + DECK_TIME_MS, '再戦のデッキ構築の期限に付け替わる');
+  assert.equal((storage.data.get('snapshot') as any).state.phase, 'deck');
+});
+
 test('バイナリのメッセージは無視される', async () => {
   fakeNow = 5_000_000;
   const { d, a } = await startedRoom();
@@ -213,6 +259,13 @@ test('入口：許可していないサイトからのブラウザ接続は403�
   assert.equal((await handler.fetch(wsRequest('/parties/room/ABCDEF'), ENV)).status, 200, 'Originなし（スクリプト等）');
   // 許可リストが空なら制限しない（開発時）
   assert.equal((await handler.fetch(wsRequest('/parties/room/ABCDEF', 'https://anything.example'), { ...ENV, ALLOWED_ORIGINS: '' })).status, 200);
+});
+
+test('入口：緊急停止スイッチ（ONLINE_ENABLED=false）で、新しい接続を全て断る', async () => {
+  const off = await handler.fetch(wsRequest('/parties/room/ABCDEF'), { ...ENV, ONLINE_ENABLED: 'false' });
+  assert.equal(off.status, 503);
+  assert.equal((await handler.fetch(wsRequest('/parties/room/ABCDEF'), { ...ENV, ONLINE_ENABLED: 'true' })).status, 200);
+  assert.equal((await handler.fetch(wsRequest('/parties/room/ABCDEF'), ENV)).status, 200, '未設定なら有効');
 });
 
 test('入口：WebSocket以外のリクエストは404、それ以外のパスは案内文を返す', async () => {

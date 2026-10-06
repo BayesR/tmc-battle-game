@@ -10,6 +10,8 @@
     // 接続を許可するサイト。開発用のlocalhostと、公開中のゲームのURL。
     // Vercelの確認用デプロイ（ブランチごとのURL）から接続する場合は、そのURLもここに追加する。
     "ALLOWED_ORIGINS": "http://localhost:5173,https://tmc-battle-game.vercel.app",
-    "ALLOW_SPECTATORS": "false"
+    "ALLOW_SPECTATORS": "false",
+    // 緊急停止スイッチ。"false" にして再デプロイ（npx wrangler deploy）すると、新しい接続を全て断る
+    "ONLINE_ENABLED": "true"
   }
 }

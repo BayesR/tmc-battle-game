@@ -39,7 +39,11 @@ export type OnlineAction =
   /** 不戦敗（退出・切断猶予切れ・デッキ構築の時間切れ） */
   | { type: 'FORFEIT'; seat: Seat; cause: ForfeitCause }
   /** 勝者なしで終了する（両者がいなくなった等） */
-  | { type: 'ABANDON' };
+  | { type: 'ABANDON' }
+  /** 対戦終了後に、再戦を希望する。両者が揃うと、同じ2人でデッキ構築からやり直す */
+  | { type: 'REMATCH_VOTE'; seat: Seat }
+  /** 再戦の希望を取り消す（切断した時にも使う） */
+  | { type: 'REMATCH_CANCEL'; seat: Seat };
 
 export type OnlineErrorCode =
   | 'wrong-phase'
@@ -47,7 +51,8 @@ export type OnlineErrorCode =
   | 'already-submitted'
   | 'invalid-deck'
   | 'already-picked'
-  | 'invalid-card';
+  | 'invalid-card'
+  | 'rematch-unavailable';
 
 export interface OnlineError {
   code: OnlineErrorCode;
@@ -84,6 +89,20 @@ export function createInitialOnlineState(): OnlineMatchState {
     winner: null,
     endReason: null,
     forfeitedBy: null,
+    rematchVotes: { A: false, B: false },
+    matchNumber: 1,
+    lastDeckIds: { A: [], B: [] },
+  };
+}
+
+/** 再戦：同じ2人（席・名前はそのまま）で、デッキ構築からやり直す。前回のデッキのIDだけは引き継ぐ */
+function resetForRematch(state: OnlineMatchState): OnlineMatchState {
+  return {
+    ...createInitialOnlineState(),
+    phase: 'deck',
+    players: state.players,
+    lastDeckIds: state.lastDeckIds,
+    matchNumber: state.matchNumber + 1,
   };
 }
 
@@ -204,8 +223,9 @@ export function onlineReducer(state: OnlineMatchState, action: OnlineAction, ctx
       const hands = { ...state.hands, [action.seat]: hand };
       const deckSubmitted = { ...state.deckSubmitted, [action.seat]: true };
       const remaining = { ...state.remaining, [action.seat]: [...hand] };
+      const lastDeckIds = { ...state.lastDeckIds, [action.seat]: hand.map((c) => c.id) };
       const ready = bothTrue(deckSubmitted);
-      return accept({ ...state, hands, deckSubmitted, remaining, phase: ready ? 'pick' : 'deck' });
+      return accept({ ...state, hands, deckSubmitted, remaining, lastDeckIds, phase: ready ? 'pick' : 'deck' });
     }
 
     case 'PICK': {
@@ -262,6 +282,20 @@ export function onlineReducer(state: OnlineMatchState, action: OnlineAction, ctx
     case 'ABANDON': {
       if (state.phase === 'finished') return reject(state, 'wrong-phase', '対戦はすでに終了しています');
       return accept({ ...state, phase: 'finished', winner: null, endReason: 'abandoned', forfeitedBy: null });
+    }
+
+    case 'REMATCH_VOTE': {
+      if (state.phase !== 'finished') return reject(state, 'wrong-phase', '対戦が終わるまで、再戦は選べません');
+      // 途中で終了した対戦（不戦敗・勝者なし）は、再戦の対象にしない
+      if (state.endReason !== 'normal') return reject(state, 'rematch-unavailable', '対戦が途中で終了したため、再戦はできません');
+      const votes = { ...state.rematchVotes, [action.seat]: true };
+      if (votes.A && votes.B) return accept(resetForRematch(state));
+      return accept({ ...state, rematchVotes: votes });
+    }
+
+    case 'REMATCH_CANCEL': {
+      if (state.phase !== 'finished') return reject(state, 'wrong-phase', '対戦が終わるまで、再戦は選べません');
+      return accept({ ...state, rematchVotes: { ...state.rematchVotes, [action.seat]: false } });
     }
   }
 }
@@ -333,5 +367,9 @@ export function viewFor(state: OnlineMatchState, viewer: Seat | 'spectator'): On
     matchWinner,
     endReason: state.endReason,
     forfeitedBy,
+    rematchSelfVoted: state.rematchVotes[perspective],
+    rematchEnemyVoted: state.rematchVotes[enemy],
+    matchNumber: state.matchNumber,
+    selfLastDeckIds: isPlayer ? state.lastDeckIds[perspective] : [],
   };
 }

@@ -24,9 +24,19 @@ export const MAX_SPECTATORS = 20;
 /**
  * ロビー（相手の参加待ち）で切断した場合の猶予。
  * 招待リンクをLINEなどで送るためにアプリを切り替えると、ブラウザの接続が切れることがあるため、
- * 対戦中（DISCONNECT_GRACE_MS）より長くしてある。
+ * 対戦中（DISCONNECT_GRACE_MS）より長くしてある。ロビー全体の上限（LOBBY_EXPIRE_MS）と同じ長さなので、
+ * 実際にはロビーの最大待ち時間のほうが先に来る。
  */
 export const LOBBY_DISCONNECT_GRACE_MS = 300_000;
 
-/** 相手が参加しないままロビーを維持できる最大時間。過ぎるとルームは勝者なしで終了する */
-export const LOBBY_EXPIRE_MS = 1_800_000;
+/** 相手が参加しないままロビーを維持できる最大時間（ルーム作成から）。過ぎるとルームは勝者なしで終了する */
+export const LOBBY_EXPIRE_MS = 300_000;
+
+/**
+ * 対戦が終わってから、ルームを閉じるまでの時間（この間に、再戦の相談ができる）。
+ * 結果画面を開いたままにされても、接続時間（＝サーバーの費用）が増え続けないようにするため。
+ */
+export const FINISHED_LINGER_MS = 120_000;
+
+/** 接続してから、最初のメッセージ（hello）を送るまでの猶予。過ぎた接続は切る（何も送らない接続を放置しないため） */
+export const HELLO_TIMEOUT_MS = 10_000;

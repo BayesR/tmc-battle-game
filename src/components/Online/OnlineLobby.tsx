@@ -65,7 +65,7 @@ export function OnlineLobby({ roomCode, inviteServer }: Props) {
       </div>
 
       <p className="max-w-xs text-center text-[11px] leading-relaxed text-zinc-500">
-        リンクを送るためにアプリを切り替えても、5分ほどは待ち続けます。30分以内に相手が参加しないと、ルームは閉じられます。
+        5分以内に相手が参加しないと、ルームは閉じられます。リンクを送るためにアプリを切り替えても、そのまま待っています。
       </p>
     </div>
   );

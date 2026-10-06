@@ -8,7 +8,9 @@
 //   npm run smoke:online -- wss://あなたのサーバー.workers.dev
 //
 // 確認すること：参加と席の割り当て／満員／不正なメッセージ／デッキ提出／対戦の進行／
-//               途中の切断と同じ席への再接続／両者から見た結果の一致／終了後にタイマーが残らないこと
+//               途中の切断と同じ席への再接続／両者から見た結果の一致／終了後に「閉じる期限」だけが残ること／
+//               再戦（希望・取り消し・両者の同意でデッキ構築に戻る・2戦目の完走）／
+//               何も送らない接続が約10秒で切られること（サーバーの alarm が実際に動く確認でもある）
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -173,8 +175,56 @@ async function main() {
   check(va.rounds.length === 5, `通常戦は5戦行われた（サドンデス: ${va.isSuddenDeath ? `あり・${va.suddenDeathRounds.length}戦` : 'なし'}）`);
   check(
     [a2.state.timers, b.state.timers].every((t) => t.pickDeadlineAt === null && t.revealDeadlineAt === null && t.deckDeadlineAt === null && t.graceDeadlineAt === null),
-    '終了後にタイマーが残っていない'
+    '終了後に、対戦中のタイマー（選択・公開・デッキ・切断の猶予）が残っていない'
   );
+  check(
+    [a2.state.timers, b.state.timers].every((t) => typeof t.closeDeadlineAt === 'number' && t.closeDeadlineAt > t.serverNow),
+    '終了後は、ルームを閉じる期限（約2分後）だけが伝わる'
+  );
+
+  console.log('6. 再戦');
+  a2.autoplay = false;
+  b.autoplay = false;
+  a2.send({ t: 'rematch' });
+  await b.waitFor('相手の再戦の希望', (m) => m.t === 'state' && m.view.rematchEnemyVoted === true);
+  check(true, '一方が再戦を希望すると、相手の画面に伝わる');
+  a2.send({ t: 'rematch_cancel' });
+  await b.waitFor('希望の取り消し', (m) => m.t === 'state' && m.view.rematchEnemyVoted === false);
+  check(true, '希望を取り消せる');
+  a2.send({ t: 'rematch' });
+  b.send({ t: 'rematch' });
+  await a2.waitForPhase('deck');
+  await b.waitForPhase('deck');
+  check(a2.state.view.matchNumber === 2 && b.state.view.matchNumber === 2, '両者が希望すると、同じ2人で2戦目のデッキ構築に戻る');
+  check(JSON.stringify(a2.state.view.selfLastDeckIds) === JSON.stringify(deckA), '前回のデッキのIDが、本人に届く');
+  check(a2.state.view.rounds.length === 0 && a2.state.timers.closeDeadlineAt === null, '1戦目の記録は消え、閉じる期限も無くなる');
+  check(a2.state.timers.deckDeadlineAt > a2.state.timers.serverNow, 'デッキ構築の制限時間が、新しく付く');
+  a2.send({ t: 'submit_deck', cardIds: deckA });
+  b.send({ t: 'submit_deck', cardIds: deckB });
+  await a2.waitForPhase('pick');
+  for (const cl of [a2, b]) {
+    cl.autoplay = true;
+    cl.play(cl.state.view);
+  }
+  await a2.waitForPhase('finished', 20000);
+  await b.waitForPhase('finished', 20000);
+  const v2a = a2.state.view;
+  const v2b = b.state.view;
+  check(v2a.endReason === 'normal' && v2a.matchWinner !== null && v2a.matchWinner !== v2b.matchWinner, '2戦目も最後まで進み、勝者が両者で食い違わない');
+  check(v2a.rounds.length === 5 && v2a.rounds.every((r, i) => r.selfCard.id === v2b.rounds[i].enemyCard.id), '2戦目の記録が、1戦目と混ざらず、両者で鏡写しに一致する');
+
+  console.log('7. 何も送らない接続は、約10秒で切られる');
+  const idle = new Client('無言の接続', crypto.randomUUID());
+  await idle.open();
+  const closedByServer = await new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(false), 25000);
+    idle.ws.onclose = () => {
+      clearTimeout(timer);
+      resolve(true);
+    };
+  });
+  check(closedByServer, 'hello を送らない接続は、サーバーに切られる');
+  check(idle.errors.includes('hello-timeout'), '理由（hello-timeout）が伝えられる');
 
   for (const cl of [a2, b, c]) cl.close();
 }

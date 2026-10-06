@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { OnlineClient, type ClientClock, type SocketLike } from '../src/online/client';
 import { Room } from '../src/online/room';
 import { parseServerMessage } from '../src/online/protocol';
-import { DISCONNECT_GRACE_MS } from '../src/online/constants';
+import { DISCONNECT_GRACE_MS, FINISHED_LINGER_MS } from '../src/online/constants';
 import type { CardMaster } from '../src/types/card';
 import { deckOf, seededRandom } from './helpers';
 
@@ -320,6 +320,53 @@ test('対戦が終了してサーバーが接続を閉じたら、再接続せ�
   assert.equal(a.getSnapshot().status, 'ended');
   assert.equal(a.getSnapshot().endedReason, 'finished');
   assert.equal(a.getSnapshot().view?.matchWinner, 'self', '結果の表示用に、最後の状態は残る');
+});
+
+test('再戦：希望を送ると相手に伝わり、両者が希望するとデッキ構築に戻り、前回のデッキのIDが届く', async () => {
+  const { a, b } = await twoPlayers();
+  a.submitDeck(ids(dA));
+  b.submitDeck(ids(dB));
+  // 速く終わらせる：Bが退出するのではなく、通常の決着まで進める
+  for (let i = 0; i < 40 && a.getSnapshot().view?.phase !== 'finished'; i++) {
+    for (const c of [a, b]) {
+      const v = c.getSnapshot().view!;
+      if (v.phase === 'pick' && !v.selfHasPicked) c.pick(v.selfRemaining[0].instanceId);
+    }
+    for (const c of [a, b]) if (c.getSnapshot().view?.phase === 'reveal') c.ackReveal();
+  }
+  assert.equal(a.getSnapshot().view?.phase, 'finished');
+
+  assert.ok(a.rematch());
+  assert.equal(b.getSnapshot().view?.rematchEnemyVoted, true);
+  assert.ok(a.cancelRematch());
+  assert.equal(b.getSnapshot().view?.rematchEnemyVoted, false);
+  a.rematch();
+  b.rematch();
+  const v = a.getSnapshot().view!;
+  assert.equal(v.phase, 'deck');
+  assert.equal(v.matchNumber, 2);
+  assert.deepEqual(v.selfLastDeckIds, ids(dA));
+  assert.equal(a.getSnapshot().timers?.closeDeadlineAt, null);
+});
+
+test('終了後にサーバーが接続を閉じたら（ルームの終了）、結果は残したまま「終了」になる。以後の参加は「ルームは終了」で断られる', async () => {
+  const { net, a, b } = await twoPlayers();
+  a.submitDeck(ids(dA));
+  b.submitDeck(ids(dB));
+  b.leave();
+  assert.equal(a.getSnapshot().view?.phase, 'finished');
+  assert.ok(a.getSnapshot().timers?.closeDeadlineAt !== null, '閉じる時刻が届く');
+  net.serverNow += FINISHED_LINGER_MS;
+  net.room.tick(); // サーバーが、期限でルームを閉じる
+  assert.equal(a.getSnapshot().status, 'ended');
+  assert.equal(a.getSnapshot().endedReason, 'finished');
+  assert.equal(a.getSnapshot().view?.matchWinner, 'self');
+
+  const late = mkClient(net, new ManualClock(), 'token-late-0123456789abc');
+  late.start();
+  await tick();
+  assert.equal(late.getSnapshot().status, 'ended');
+  assert.equal(late.getSnapshot().endedReason, 'room-closed');
 });
 
 // ---------------------------------------------------------------------------

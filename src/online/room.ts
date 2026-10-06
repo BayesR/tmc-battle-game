@@ -2,6 +2,8 @@ import type { CardMaster } from '../types/card';
 import {
   DECK_TIME_MS,
   DISCONNECT_GRACE_MS,
+  FINISHED_LINGER_MS,
+  HELLO_TIMEOUT_MS,
   LOBBY_DISCONNECT_GRACE_MS,
   LOBBY_EXPIRE_MS,
   MAX_SPECTATORS,
@@ -52,15 +54,22 @@ interface Deadlines {
   deckAt: number | null;
   pickAt: number | null;
   revealAt: number | null;
+  /** 対戦終了後、ルームを閉じる時刻 */
+  closeAt: number | null;
   graceAt: Record<Seat, number | null>;
 }
 
-/** 永続化用の保存形式（JSONにできる）。接続そのものは含まない（再接続時に token で席に戻る） */
+/**
+ * 永続化用の保存形式（JSONにできる）。接続そのものは含まない（再接続時に token で席に戻る）。
+ * 古い形式（再戦などの項目が無い保存データ）も、復元時に不足分を補って読み込める。
+ */
 export interface RoomSnapshot {
   v: 1;
   state: OnlineMatchState;
   tokens: Record<Seat, string | null>;
-  deadlines: Deadlines;
+  deadlines: Partial<Deadlines> & { graceAt?: Partial<Record<Seat, number | null>> };
+  /** 閉じ済みのルームか（閉じ済みなら、新しい参加を受け付けない） */
+  closed?: boolean;
 }
 
 const noDeadlines = (): Deadlines => ({
@@ -68,6 +77,7 @@ const noDeadlines = (): Deadlines => ({
   deckAt: null,
   pickAt: null,
   revealAt: null,
+  closeAt: null,
   graceAt: { A: null, B: null },
 });
 
@@ -80,6 +90,10 @@ export class Room {
   private conns = new Map<string, ConnInfo | null>();
   /** 各席に現在つながっている接続（切断中なら null） */
   private seatConn: Record<Seat, string | null> = { A: null, B: null };
+  /** hello を送るまでの期限（接続ごと）。何も送らない接続を放置しないため */
+  private helloDeadlines = new Map<string, number>();
+  /** 閉じ済み（終了後の受付期間が過ぎた）か */
+  private closed = false;
 
   constructor(
     private readonly env: RoomEnv,
@@ -100,6 +114,7 @@ export class Room {
   /** 新しい接続が開いた（まだ誰かは分からない。hello を待つ） */
   handleOpen(connId: string): void {
     this.conns.set(connId, null);
+    this.helloDeadlines.set(connId, this.env.now() + HELLO_TIMEOUT_MS);
   }
 
   handleMessage(connId: string, raw: unknown): void {
@@ -127,6 +142,16 @@ export class Room {
       case 'ack_reveal':
         action = { type: 'ACK_REVEAL', seat };
         break;
+      case 'rematch':
+        // 相手が接続していない時は、希望を受け付けない（再戦の開始時に、両者がそろっている必要があるため）
+        if (this.seatConn[otherSeat(seat)] === null) {
+          return this.sendError(connId, 'rematch-unavailable', '相手が接続していないため、再戦はできません');
+        }
+        action = { type: 'REMATCH_VOTE', seat };
+        break;
+      case 'rematch_cancel':
+        action = { type: 'REMATCH_CANCEL', seat };
+        break;
     }
     this.apply(action, connId);
   }
@@ -134,6 +159,7 @@ export class Room {
   handleClose(connId: string): void {
     const info = this.conns.get(connId);
     this.conns.delete(connId);
+    this.helloDeadlines.delete(connId);
     if (!info) return;
 
     if (info.role === 'spectator') {
@@ -148,11 +174,21 @@ export class Room {
       const grace = this.state.phase === 'lobby' ? LOBBY_DISCONNECT_GRACE_MS : DISCONNECT_GRACE_MS;
       this.deadlines.graceAt[info.role] = this.env.now() + grace;
     }
-    this.broadcast();
+    // 再戦を希望していた人が切断したら、希望を取り消す（再戦は、両者が接続している時にだけ始める）
+    if (!this.cancelRematchVote(info.role)) this.broadcast();
   }
 
   /** 期限が来ているものを全て処理する。プラットフォームの alarm から呼ぶ */
   tick(): void {
+    this.expireUnidentified();
+
+    // 対戦終了後の受付期間が過ぎたら、ルームを閉じる
+    const closeAt = this.deadlines.closeAt;
+    if (!this.closed && closeAt !== null && closeAt <= this.env.now()) {
+      this.closeRoom();
+      return;
+    }
+
     for (let guard = 0; guard < 50; guard++) {
       const action = this.nextDueAction();
       if (!action) return;
@@ -163,7 +199,7 @@ export class Room {
   /** 次に tick() を呼ぶべき時刻（なければ null） */
   nextDeadline(): number | null {
     const d = this.deadlines;
-    const all = [d.lobbyExpireAt, d.deckAt, d.pickAt, d.revealAt, d.graceAt.A, d.graceAt.B].filter(
+    const all = [d.lobbyExpireAt, d.deckAt, d.pickAt, d.revealAt, d.closeAt, d.graceAt.A, d.graceAt.B, ...this.helloDeadlines.values()].filter(
       (t): t is number => t !== null
     );
     return all.length > 0 ? Math.min(...all) : null;
@@ -175,6 +211,7 @@ export class Room {
       state: this.state,
       tokens: { ...this.tokens },
       deadlines: { ...this.deadlines, graceAt: { ...this.deadlines.graceAt } },
+      closed: this.closed,
     };
   }
 
@@ -189,6 +226,7 @@ export class Room {
 
   private onHello(connId: string, info: ConnInfo | null, token: string, spectate: boolean): void {
     if (info) return this.sendError(connId, 'already-hello', 'すでに参加しています');
+    if (this.closed) return this.sendError(connId, 'room-closed', 'このルームは終了しました。新しいルームを作ってください');
 
     // 1) 再接続：保存してある token と一致する席に戻す
     for (const seat of SEATS) {
@@ -201,6 +239,7 @@ export class Room {
         }
         this.seatConn[seat] = connId;
         this.conns.set(connId, { role: seat, token });
+        this.helloDeadlines.delete(connId);
         this.deadlines.graceAt[seat] = null;
         this.broadcast();
         return;
@@ -212,6 +251,7 @@ export class Room {
       if (!this.env.allowSpectators) return this.sendError(connId, 'spectating-disabled', '観戦はまだ利用できません');
       if (this.spectatorCount() >= MAX_SPECTATORS) return this.sendError(connId, 'room-full', '観戦者が上限に達しています');
       this.conns.set(connId, { role: 'spectator', token });
+      this.helloDeadlines.delete(connId);
       this.broadcast();
       return;
     }
@@ -224,6 +264,7 @@ export class Room {
         this.tokens[seat] = token;
         this.seatConn[seat] = connId;
         this.conns.set(connId, { role: seat, token });
+        this.helloDeadlines.delete(connId);
         this.apply({ type: 'SEAT', seat, name }, connId);
         return;
       }
@@ -236,9 +277,44 @@ export class Room {
       this.apply({ type: 'FORFEIT', seat: info.role, cause: 'left' }, connId);
     }
     this.conns.delete(connId);
-    if (info.role !== 'spectator' && this.seatConn[info.role] === connId) this.seatConn[info.role] = null;
+    this.helloDeadlines.delete(connId);
+    let cancelled = false;
+    if (info.role !== 'spectator' && this.seatConn[info.role] === connId) {
+      this.seatConn[info.role] = null;
+      cancelled = this.cancelRematchVote(info.role);
+    }
     this.transport.close(connId);
-    this.broadcast();
+    if (!cancelled) this.broadcast();
+  }
+
+  /** 終了後に、その席の再戦の希望が入っていれば取り消す（取り消した場合は true。状態の送信も済ませる） */
+  private cancelRematchVote(seat: Seat): boolean {
+    if (this.state.phase !== 'finished' || !this.state.rematchVotes[seat]) return false;
+    this.apply({ type: 'REMATCH_CANCEL', seat }, null);
+    return true;
+  }
+
+  /** hello を送らないまま期限が過ぎた接続を切る */
+  private expireUnidentified(): void {
+    const now = this.env.now();
+    for (const [connId, at] of [...this.helloDeadlines]) {
+      if (at > now) continue;
+      this.helloDeadlines.delete(connId);
+      if (this.conns.get(connId) !== null) continue; // すでに参加済み
+      this.sendError(connId, 'hello-timeout', '参加の手続きが行われなかったため、接続を終了しました');
+      this.conns.delete(connId);
+      this.transport.close(connId);
+    }
+  }
+
+  /** 対戦終了後の受付期間が過ぎたので、全ての接続を閉じ、以後の参加を受け付けない */
+  private closeRoom(): void {
+    this.closed = true;
+    this.deadlines.closeAt = null;
+    for (const connId of [...this.conns.keys()]) this.transport.close(connId);
+    this.conns.clear();
+    this.helloDeadlines.clear();
+    this.seatConn = { A: null, B: null };
   }
 
   // -------------------------------------------------------------------------
@@ -270,6 +346,7 @@ export class Room {
     d.deckAt = phase === 'deck' ? (d.deckAt ?? now + DECK_TIME_MS) : null;
     d.pickAt = phase === 'pick' ? (d.pickAt ?? now + PICK_TIME_MS) : null;
     d.revealAt = phase === 'reveal' ? (d.revealAt ?? now + REVEAL_AUTO_ADVANCE_MS) : null;
+    d.closeAt = phase === 'finished' ? (d.closeAt ?? now + FINISHED_LINGER_MS) : null;
 
     if (phase === 'finished') d.graceAt = { A: null, B: null };
   }
@@ -334,6 +411,7 @@ export class Room {
       pickDeadlineAt: d.pickAt,
       revealDeadlineAt: d.revealAt,
       graceDeadlineAt: grace,
+      closeDeadlineAt: d.closeAt,
     };
   }
 
@@ -372,18 +450,30 @@ export class Room {
 
   private restore(snapshot: RoomSnapshot): void {
     if (snapshot.v !== 1) throw new Error(`未対応のスナップショット形式です: ${String((snapshot as { v: unknown }).v)}`);
-    this.state = snapshot.state;
+    // 古い形式の保存データ（再戦などの項目が無いもの）でも読み込めるよう、不足分を補う
+    this.state = { ...createInitialOnlineState(), ...snapshot.state };
     this.tokens = { ...snapshot.tokens };
-    this.deadlines = { ...snapshot.deadlines, graceAt: { ...snapshot.deadlines.graceAt } };
+    const blank = noDeadlines();
+    this.deadlines = { ...blank, ...snapshot.deadlines, graceAt: { ...blank.graceAt, ...snapshot.deadlines.graceAt } } as Deadlines;
+    this.closed = snapshot.closed === true;
+
+    if (this.closed) {
+      this.deadlines = noDeadlines();
+      return;
+    }
+
+    const now = this.env.now();
+    if (this.state.phase === 'finished') {
+      // 終了済みのルームには、必ず閉じる期限を付ける（付いていないと、接続が残る限り開き続けてしまう）
+      if (this.deadlines.closeAt === null) this.deadlines.closeAt = now + FINISHED_LINGER_MS;
+      return;
+    }
 
     // 復元した直後は誰も接続していない。着席済みの席には、戻ってくるための猶予を与える
-    if (this.state.phase !== 'finished') {
-      const now = this.env.now();
-      const grace = this.state.phase === 'lobby' ? LOBBY_DISCONNECT_GRACE_MS : DISCONNECT_GRACE_MS;
-      for (const seat of SEATS) {
-        if (this.state.players[seat] !== null && this.deadlines.graceAt[seat] === null) {
-          this.deadlines.graceAt[seat] = now + grace;
-        }
+    const grace = this.state.phase === 'lobby' ? LOBBY_DISCONNECT_GRACE_MS : DISCONNECT_GRACE_MS;
+    for (const seat of SEATS) {
+      if (this.state.players[seat] !== null && this.deadlines.graceAt[seat] === null) {
+        this.deadlines.graceAt[seat] = now + grace;
       }
     }
   }

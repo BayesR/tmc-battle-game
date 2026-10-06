@@ -16,6 +16,9 @@ export type ClientMessage =
   | { t: 'submit_deck'; cardIds: string[] }
   | { t: 'pick'; instanceId: string }
   | { t: 'ack_reveal' }
+  /** 対戦終了後に、同じ相手との再戦を希望する／取り消す */
+  | { t: 'rematch' }
+  | { t: 'rematch_cancel' }
   | { t: 'leave' };
 
 /** 制限時間などの期限（サーバー時刻のミリ秒）。該当しないものは null */
@@ -27,6 +30,8 @@ export interface RoomTimers {
   revealDeadlineAt: number | null;
   /** 切断した相手が戻らなければ不戦敗になる時刻 */
   graceDeadlineAt: number | null;
+  /** 対戦終了後、ルームが閉じられる時刻（再戦の相談ができる期限） */
+  closeDeadlineAt: number | null;
 }
 
 /** サーバー → クライアント */
@@ -89,6 +94,10 @@ export function parseClientMessage(raw: unknown): ClientMessage | null {
     }
     case 'ack_reveal':
       return { t: 'ack_reveal' };
+    case 'rematch':
+      return { t: 'rematch' };
+    case 'rematch_cancel':
+      return { t: 'rematch_cancel' };
     case 'leave':
       return { t: 'leave' };
     default:

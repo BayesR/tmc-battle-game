@@ -6,6 +6,8 @@ import type { OnlineView } from '../src/online/types';
 import {
   DECK_TIME_MS,
   DISCONNECT_GRACE_MS,
+  FINISHED_LINGER_MS,
+  HELLO_TIMEOUT_MS,
   LOBBY_DISCONNECT_GRACE_MS,
   LOBBY_EXPIRE_MS,
   MAX_SPECTATORS,
@@ -164,7 +166,7 @@ test('拒否された操作のエラーは、送った本人にだけ届く', ()
 // ---------------------------------------------------------------------------
 // 試合の進行と制限時間
 // ---------------------------------------------------------------------------
-test('メッセージだけで試合を最後まで進められ、終了後は期限が残らない', () => {
+test('メッセージだけで試合を最後まで進められ、終了後は「閉じる期限」だけが残り、閉じた後は何も残らない', () => {
   const h = startedRoom();
   assert.equal(h.view('c1').phase, 'pick');
   for (let round = 1; round <= 5; round++) {
@@ -177,7 +179,10 @@ test('メッセージだけで試合を最後まで進められ、終了後は�
   assert.equal(h.view('c1').phase, 'finished');
   assert.equal(h.view('c1').matchWinner, 'self');
   assert.equal(h.view('c2').matchWinner, 'enemy');
-  assert.equal(h.room.nextDeadline(), null, '終了後はタイマーが残らない');
+  assert.equal(h.room.nextDeadline(), T0 + FINISHED_LINGER_MS, '終了後に残る期限は「ルームを閉じる時刻」だけ');
+  assert.equal(h.lastState('c1').timers.closeDeadlineAt, T0 + FINISHED_LINGER_MS, '閉じる時刻が、画面にも伝わる');
+  h.advance(FINISHED_LINGER_MS);
+  assert.equal(h.room.nextDeadline(), null, 'ルームを閉じた後は、期限が1つも残らない');
 });
 
 test('各フェーズの期限が正しく設定される', () => {
@@ -279,7 +284,7 @@ test('猶予を過ぎても戻らなければ不戦敗になる（境界：1ミ�
   assert.equal(h.view('c2').phase, 'finished');
   assert.equal(h.view('c2').matchWinner, 'self');
   assert.equal(h.view('c2').forfeitedBy, 'enemy');
-  assert.equal(h.room.nextDeadline(), null);
+  assert.equal(h.room.nextDeadline(), T0 + DISCONNECT_GRACE_MS + FINISHED_LINGER_MS, '残るのは「閉じる期限」だけ');
 });
 
 test('切断の猶予切れは、選択の時間切れより優先される（切断者は自動選択されない）', () => {
@@ -338,7 +343,7 @@ test('退出（leave）：対戦中は不戦敗になり、接続が閉じられ
   assert.ok(h.closed.has('c1'));
   assert.equal(h.view('c2').matchWinner, 'self');
   assert.equal(h.view('c2').forfeitedBy, 'enemy');
-  assert.equal(h.room.nextDeadline(), null);
+  assert.equal(h.room.nextDeadline(), T0 + FINISHED_LINGER_MS, '残るのは「閉じる期限」だけ');
 
   const lobby = new Harness();
   lobby.hello('c1', TOKEN_A);
@@ -454,7 +459,204 @@ test('切断中の相手がいる状態で試合が終わっても、期限が�
   assert.ok(h.room.nextDeadline() !== null);
   h.send('c2', { t: 'leave' }); // Bが退出して、試合が終了
   assert.equal(h.room.getState().phase, 'finished');
-  assert.equal(h.room.nextDeadline(), null, '終了後に、過去になる期限が残っていると目覚ましが回り続ける');
+  // 切断の猶予（Aの分）が残っていると、過去の時刻になった後も目覚ましが回り続ける。残るのは「閉じる期限」だけであること
+  assert.equal(h.room.nextDeadline(), T0 + FINISHED_LINGER_MS, '終了後に残る期限は「閉じる時刻」だけ');
+  h.advance(FINISHED_LINGER_MS);
+  assert.equal(h.room.nextDeadline(), null, '閉じた後は、過去になる期限も残らない');
   h.advance(DISCONNECT_GRACE_MS * 10);
   assert.equal(h.room.nextDeadline(), null);
+});
+
+// ---------------------------------------------------------------------------
+// 再戦・終了後の自動クローズ・hello の期限・保存データの互換性
+// ---------------------------------------------------------------------------
+/** 両者が、残りから先頭のカードを選んで確定し、結果を確認して、最後まで進める（ids は A・B の接続ID） */
+function playOut(h: Harness, ids: [string, string] = ['c1', 'c2']) {
+  const [a, b] = ids;
+  for (let guard = 0; guard < 80 && h.view(a).phase !== 'finished'; guard++) {
+    const phase = h.view(a).phase;
+    if (phase === 'pick') {
+      for (const id of ids) {
+        const v = h.view(id);
+        if (!v.selfHasPicked) h.send(id, { t: 'pick', instanceId: v.selfRemaining[0].instanceId });
+      }
+    } else if (phase === 'reveal') {
+      h.send(a, { t: 'ack_reveal' });
+      h.send(b, { t: 'ack_reveal' });
+    }
+  }
+}
+
+test('設定値：ロビーは5分、終了後は2分で閉じる（合意した値）', () => {
+  assert.equal(LOBBY_EXPIRE_MS, 300_000);
+  assert.equal(FINISHED_LINGER_MS, 120_000);
+  assert.equal(HELLO_TIMEOUT_MS, 10_000);
+});
+
+test('終了後2分で、全ての接続が閉じられ、以後の参加は「ルームは終了」で断られる。結果の状態は保たれる', () => {
+  const h = startedRoom();
+  playOut(h);
+  assert.equal(h.view('c1').phase, 'finished');
+  h.advance(FINISHED_LINGER_MS - 1);
+  assert.equal(h.closed.size, 0, '期限の1ミリ秒前は、まだ閉じない');
+  h.advance(1);
+  assert.ok(h.closed.has('c1') && h.closed.has('c2'), '2分後に、両者の接続が閉じられる');
+  assert.equal(h.room.nextDeadline(), null);
+  assert.equal(h.room.getState().phase, 'finished');
+
+  h.hello('late', TOKEN_A);
+  assert.deepEqual(h.errorCodes('late'), ['room-closed'], '閉じた後は、席に戻る token でも入れない');
+});
+
+test('再戦：両者が希望すると、同じ席のままデッキ構築に戻り、前回のデッキが入った状態で始められる', () => {
+  const dA = deckOf('a', [3, 3, 3, 3, 3]);
+  const dB = deckOf('b', [2, 2, 2, 2, 2]);
+  const h = startedRoom(dA, dB);
+  playOut(h);
+  const nameA = h.view('c1').selfPlayer!.name;
+  const closeAt = h.lastState('c1').timers.closeDeadlineAt;
+  assert.ok(closeAt !== null);
+
+  h.advance(30_000);
+  h.send('c1', { t: 'rematch' });
+  assert.equal(h.view('c1').phase, 'finished');
+  assert.equal(h.view('c2').rematchEnemyVoted, true, '相手の画面に、再戦の希望が伝わる');
+  h.send('c2', { t: 'rematch' });
+
+  const v = h.view('c1');
+  assert.equal(v.phase, 'deck');
+  assert.equal(v.matchNumber, 2);
+  assert.equal(v.selfPlayer!.name, nameA, '名前はそのまま');
+  assert.deepEqual(v.selfLastDeckIds, idsOf(dA), '前回のデッキのIDが渡される');
+  assert.equal(h.lastState('c1').timers.closeDeadlineAt, null, '再戦が始まると、閉じる期限は無くなる');
+  assert.equal(h.lastState('c1').timers.deckDeadlineAt, T0 + 30_000 + DECK_TIME_MS, 'デッキ構築の制限時間が新しく付く');
+  assert.equal(h.view('c1').rounds.length, 0);
+
+  // 2戦目を最後まで遊べ、終わるとまた「閉じる期限」が新しく付く
+  h.send('c1', { t: 'submit_deck', cardIds: idsOf(dA) });
+  h.send('c2', { t: 'submit_deck', cardIds: idsOf(dB) });
+  playOut(h);
+  assert.equal(h.view('c1').phase, 'finished');
+  assert.equal(h.view('c1').rounds.length, 5);
+  assert.ok(h.lastState('c1').timers.closeDeadlineAt! > closeAt!, '閉じる期限が、2戦目の終了から数え直される');
+});
+
+test('再戦の希望は、ルームを閉じる期限を延ばさない', () => {
+  const h = startedRoom();
+  playOut(h);
+  h.advance(FINISHED_LINGER_MS - 1_000);
+  h.send('c1', { t: 'rematch' });
+  h.advance(1_000);
+  assert.ok(h.closed.has('c1') && h.closed.has('c2'), '希望を出していても、期限が来たら閉じる');
+});
+
+test('相手が切断中は再戦を希望できない。希望を出した後に切断したら、希望は取り消される', () => {
+  const h = startedRoom();
+  playOut(h);
+  h.close('c2');
+  h.send('c1', { t: 'rematch' });
+  assert.deepEqual(h.errorCodes('c1'), ['rematch-unavailable']);
+  assert.equal(h.view('c1').rematchSelfVoted, false);
+
+  // 戻ってきたら、希望できる。希望を出した後に切断すると、取り消される
+  h.hello('c3', TOKEN_B);
+  h.send('c1', { t: 'rematch' });
+  assert.equal(h.view('c3').rematchEnemyVoted, true);
+  h.close('c1');
+  assert.equal(h.view('c3').rematchEnemyVoted, false, '切断した人の希望は取り消される');
+  assert.equal(h.room.getState().rematchVotes.A, false);
+});
+
+test('終了後に相手が退出したら、再戦はできず、希望も取り消される', () => {
+  const h = startedRoom();
+  playOut(h);
+  h.send('c1', { t: 'rematch' });
+  h.send('c1', { t: 'leave' });
+  assert.equal(h.view('c2').rematchEnemyVoted, false);
+  assert.equal(h.lastState('c2').connected.enemy, false);
+  h.send('c2', { t: 'rematch' });
+  assert.deepEqual(h.errorCodes('c2'), ['rematch-unavailable']);
+});
+
+test('不戦敗で終わった対戦は、再戦できない', () => {
+  const h = startedRoom();
+  h.send('c1', { t: 'leave' });
+  h.send('c2', { t: 'rematch' });
+  assert.deepEqual(h.errorCodes('c2'), ['rematch-unavailable']);
+});
+
+test('再戦の希望の取り消し（rematch_cancel）が届く', () => {
+  const h = startedRoom();
+  playOut(h);
+  h.send('c1', { t: 'rematch' });
+  h.send('c1', { t: 'rematch_cancel' });
+  assert.equal(h.view('c2').rematchEnemyVoted, false);
+  h.send('c2', { t: 'rematch' });
+  assert.equal(h.view('c1').phase, 'finished', '取り消された後は、片方だけでは始まらない');
+});
+
+test('hello を送らない接続は、10秒で切られる。参加済みの接続は影響を受けない', () => {
+  const h = new Harness({ pool: [] });
+  h.hello('c1', TOKEN_A);
+  h.open('idle'); // 何も送らない
+  assert.equal(h.room.nextDeadline(), T0 + HELLO_TIMEOUT_MS, 'helloの期限が、次の起床時刻になる');
+  h.advance(HELLO_TIMEOUT_MS - 1);
+  assert.equal(h.closed.has('idle'), false);
+  h.advance(1);
+  assert.ok(h.closed.has('idle'));
+  assert.deepEqual(h.errorCodes('idle'), ['hello-timeout']);
+  assert.equal(h.closed.has('c1'), false, '参加済みの接続は切られない');
+  assert.equal(h.view('c1').phase, 'lobby');
+  assert.equal(h.room.nextDeadline(), T0 + LOBBY_EXPIRE_MS, 'helloの期限は残らず、ロビーの期限だけが残る');
+});
+
+test('満員で断られた接続も、期限が来たら切られる（席に着かせないまま放置しない）', () => {
+  const h = startedRoom();
+  h.hello('c3', 'token-C-0123456789abcdef');
+  assert.deepEqual(h.errorCodes('c3'), ['room-full']);
+  h.advance(HELLO_TIMEOUT_MS);
+  assert.ok(h.closed.has('c3'));
+  assert.equal(h.closed.has('c1'), false);
+});
+
+test('古い形式の保存データ（再戦などの項目が無い）も、復元して使える', () => {
+  const dA = deckOf('a', [3, 3, 3, 3, 3]);
+  const dB = deckOf('b', [2, 2, 2, 2, 2]);
+  const h = startedRoom(dA, dB);
+  const saved = JSON.parse(JSON.stringify(h.room.snapshot())) as any;
+  // 新しい項目を取り除いて、古い形式を作る
+  delete saved.state.rematchVotes;
+  delete saved.state.matchNumber;
+  delete saved.state.lastDeckIds;
+  delete saved.deadlines.closeAt;
+  delete saved.closed;
+
+  const h2 = new Harness({ pool: [...dA, ...dB], snapshot: saved, startAt: T0 + 1_000 });
+  h2.hello('n1', TOKEN_A);
+  h2.hello('n2', TOKEN_B);
+  assert.equal(h2.view('n1').phase, 'pick');
+  assert.equal(h2.view('n1').matchNumber, 1, '足りない項目は初期値で補われる');
+  assert.deepEqual(h2.view('n1').selfLastDeckIds, []);
+  playOut(h2, ['n1', 'n2']);
+  assert.equal(h2.view('n1').phase, 'finished');
+});
+
+test('終了済みの保存データには、閉じる期限が必ず付き、閉じ済みのルームは新しい参加を受け付けない', () => {
+  const h = startedRoom();
+  playOut(h);
+  const saved = JSON.parse(JSON.stringify(h.room.snapshot())) as RoomSnapshot;
+  (saved.deadlines as any).closeAt = null; // 期限が付いていない保存データ
+  const h2 = new Harness({ snapshot: saved, startAt: T0 + 5_000 });
+  assert.equal(h2.room.nextDeadline(), T0 + 5_000 + FINISHED_LINGER_MS, '終了済みなら、復元時に閉じる期限が付く');
+
+  h.advance(FINISHED_LINGER_MS);
+  const closedSnapshot = JSON.parse(JSON.stringify(h.room.snapshot())) as RoomSnapshot;
+  const h3 = new Harness({ snapshot: closedSnapshot });
+  h3.hello('x', TOKEN_A);
+  assert.deepEqual(h3.errorCodes('x'), ['room-closed']);
+  // 断られた接続は、席に着かないまま放置されず、helloの期限で切られる
+  assert.equal(h3.room.nextDeadline(), T0 + HELLO_TIMEOUT_MS);
+  h3.advance(HELLO_TIMEOUT_MS);
+  assert.ok(h3.closed.has('x'));
+  assert.equal(h3.room.nextDeadline(), null);
 });

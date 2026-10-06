@@ -28,6 +28,7 @@ const END_MESSAGES: Partial<Record<EndedReason, string>> = {
   replaced: 'このルームには、別の画面から接続されました。この画面での対戦は終了します。',
   'room-full': 'このルームは満員です（すでに2人が参加しています）。',
   'spectating-disabled': '観戦はまだ利用できません。',
+  'room-closed': 'このルームは終了しました。もう一度対戦するときは、新しいルームを作ってください。',
   'gave-up': 'サーバーに接続できませんでした。通信環境を確認して、もう一度お試しください。',
 };
 
@@ -119,13 +120,15 @@ export function OnlineRoomScreen({ roomCode, host, pool, onExit }: Props) {
           enemySubmitted={view.enemyDeckSubmitted}
           secondsLeft={deckSeconds}
           error={lastError?.message ?? null}
+          initialDeckIds={view.selfLastDeckIds}
+          matchNumber={view.matchNumber}
           onSubmit={(ids) => client.submitDeck(ids)}
         />
       )}
 
       {view && (phase === 'pick' || phase === 'reveal') && <OnlineBattleView view={view} client={client} snapshot={snapshot} />}
 
-      {view && phase === 'finished' && <OnlineResultView view={view} onExit={exit} />}
+      {view && phase === 'finished' && <OnlineResultView view={view} client={client} snapshot={snapshot} onExit={exit} />}
     </div>
   );
 }

@@ -502,3 +502,96 @@ test('ランダムな400試合で、進行ルールと不変条件が常に成�
   assert.ok(stats.suddenDeath > 10, `サドンデスが少なすぎる: ${JSON.stringify(stats)}`);
   assert.ok(stats.forfeit > 10, `不戦敗が少なすぎる: ${JSON.stringify(stats)}`);
 });
+
+// ---------------------------------------------------------------------------
+// 再戦
+// ---------------------------------------------------------------------------
+/** A が全勝して終了した状態（通常の決着） */
+function finishedNormally() {
+  const { ctx, state } = startedMatch(deckOf('a', [3, 3, 3, 3, 3]), deckOf('b', [2, 2, 2, 2, 2]));
+  let s = state;
+  for (let i = 1; i <= 5; i++) s = run(s, ctx, ...pickBoth(`a${i}`, `b${i}`), ...ackBoth);
+  assert.equal(s.phase, 'finished');
+  return { ctx, s };
+}
+
+test('再戦は、対戦が終わるまで選べない', () => {
+  const { ctx, state } = startedMatch(deckOf('a', [3, 3, 3, 3, 3]), deckOf('b', [2, 2, 2, 2, 2]));
+  const r = onlineReducer(state, { type: 'REMATCH_VOTE', seat: 'A' }, ctx);
+  assert.equal(r.error?.code, 'wrong-phase');
+  assert.strictEqual(r.state, state);
+});
+
+test('再戦：片方だけの希望では始まらず、両者が希望すると、同じ2人でデッキ構築からやり直す', () => {
+  const { ctx, s } = finishedNormally();
+  let t = run(s, ctx, { type: 'REMATCH_VOTE', seat: 'A' });
+  assert.equal(t.phase, 'finished', '片方だけでは始まらない');
+  assert.deepEqual(t.rematchVotes, { A: true, B: false });
+  assert.equal(viewFor(t, 'B').rematchEnemyVoted, true, '相手が希望していることが分かる');
+  assert.equal(viewFor(t, 'A').rematchSelfVoted, true);
+
+  t = run(t, ctx, { type: 'REMATCH_VOTE', seat: 'B' });
+  assert.equal(t.phase, 'deck');
+  assert.equal(t.matchNumber, 2);
+  assert.deepEqual(t.players, s.players, '席と名前はそのまま');
+  assert.deepEqual(t.deckSubmitted, { A: false, B: false });
+  assert.deepEqual(t.hands, { A: [], B: [] });
+  assert.deepEqual(t.rematchVotes, { A: false, B: false });
+  assert.equal(t.rounds.length, 0);
+  assert.equal(t.suddenDeathRounds.length, 0);
+  assert.equal(t.board.length, 0);
+  assert.equal(t.lastRound, null);
+  assert.equal(t.isSuddenDeath, false);
+  assert.equal(t.winner, null);
+  assert.equal(t.endReason, null);
+  assert.deepEqual(t.lastDeckIds.A, ['a1', 'a2', 'a3', 'a4', 'a5'], '前回のデッキのIDが引き継がれる');
+});
+
+test('再戦の希望は、取り消せる。同じ席が繰り返し希望しても問題ない', () => {
+  const { ctx, s } = finishedNormally();
+  let t = run(s, ctx, { type: 'REMATCH_VOTE', seat: 'A' }, { type: 'REMATCH_VOTE', seat: 'A' });
+  assert.deepEqual(t.rematchVotes, { A: true, B: false });
+  t = run(t, ctx, { type: 'REMATCH_CANCEL', seat: 'A' });
+  assert.deepEqual(t.rematchVotes, { A: false, B: false });
+  t = run(t, ctx, { type: 'REMATCH_VOTE', seat: 'B' });
+  assert.equal(t.phase, 'finished', 'Aが取り消したので、Bだけでは始まらない');
+});
+
+test('途中で終了した対戦（不戦敗・勝者なし）は、再戦の対象にならない', () => {
+  const { ctx, state } = startedMatch(deckOf('a', [3, 3, 3, 3, 3]), deckOf('b', [2, 2, 2, 2, 2]));
+  const forfeited = run(state, ctx, { type: 'FORFEIT', seat: 'A', cause: 'left' });
+  const r = onlineReducer(forfeited, { type: 'REMATCH_VOTE', seat: 'B' }, ctx);
+  assert.equal(r.error?.code, 'rematch-unavailable');
+  const abandoned = run(state, ctx, { type: 'ABANDON' });
+  assert.equal(onlineReducer(abandoned, { type: 'REMATCH_VOTE', seat: 'A' }, ctx).error?.code, 'rematch-unavailable');
+});
+
+test('再戦後の2戦目は、1戦目と同じように最後まで進み、1戦目の記録が混ざらない', () => {
+  const { ctx, s } = finishedNormally();
+  let t = run(s, ctx, { type: 'REMATCH_VOTE', seat: 'A' }, { type: 'REMATCH_VOTE', seat: 'B' });
+  // デッキを再提出（今度はBが強いデッキ）
+  const dA2 = deckOf('a', [2, 2, 2, 2, 2]);
+  const dB2 = deckOf('b', [3, 3, 3, 3, 3]);
+  const ctx2 = { ...ctx, pool: [...dA2, ...dB2] };
+  t = run(t, ctx2, { type: 'SUBMIT_DECK', seat: 'A', cardIds: idsOf(dA2) }, { type: 'SUBMIT_DECK', seat: 'B', cardIds: idsOf(dB2) });
+  assert.equal(t.phase, 'pick');
+  assert.equal(t.remaining.A.length, 5);
+  for (let i = 1; i <= 5; i++) t = run(t, ctx2, ...pickBoth(`a${i}`, `b${i}`), ...ackBoth);
+  assert.equal(t.phase, 'finished');
+  assert.equal(t.winner, 'B', '2戦目はBの勝ち');
+  assert.equal(t.rounds.length, 5, '1戦目の5戦が混ざっていない');
+  assert.equal(t.matchNumber, 2);
+  // 2戦目の後にも、もう一度再戦できる
+  t = run(t, ctx2, { type: 'REMATCH_VOTE', seat: 'A' }, { type: 'REMATCH_VOTE', seat: 'B' });
+  assert.equal(t.matchNumber, 3);
+});
+
+test('前回のデッキのIDは、本人にだけ見える。再戦の開始後、相手には前の試合のカードも見えない', () => {
+  const { ctx, s } = finishedNormally();
+  const t = run(s, ctx, { type: 'REMATCH_VOTE', seat: 'A' }, { type: 'REMATCH_VOTE', seat: 'B' });
+  assert.deepEqual(viewFor(t, 'A').selfLastDeckIds, ['a1', 'a2', 'a3', 'a4', 'a5']);
+  assert.deepEqual(viewFor(t, 'B').selfLastDeckIds, ['b1', 'b2', 'b3', 'b4', 'b5'], '本人は自分のデッキが見える');
+  assert.deepEqual(viewFor(t, 'spectator').selfLastDeckIds, [], '観戦者には渡さない');
+  assert.ok(!JSON.stringify(viewFor(t, 'B')).includes('"a1"'), '相手の前回のデッキは、Bの画面に含まれない');
+  assert.ok(!JSON.stringify(viewFor(t, 'spectator')).includes('"a1"'), '観戦者にも含まれない');
+});

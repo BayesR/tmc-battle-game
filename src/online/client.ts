@@ -37,6 +37,7 @@ export type EndedReason =
   | 'replaced' // 別の画面（タブ）が同じ席に接続した
   | 'room-full' // 満員
   | 'spectating-disabled' // 観戦は利用できない
+  | 'room-closed' // 対戦の終了後に閉じられたルームに入ろうとした
   | 'gave-up'; // 再接続を諦めた
 
 export interface ClientSnapshot {
@@ -78,6 +79,7 @@ const TERMINAL_ERRORS: Record<string, EndedReason> = {
   replaced: 'replaced',
   'room-full': 'room-full',
   'spectating-disabled': 'spectating-disabled',
+  'room-closed': 'room-closed',
 };
 
 export class OnlineClient {
@@ -154,6 +156,14 @@ export class OnlineClient {
   }
   ackReveal(): boolean {
     return this.sendAction({ t: 'ack_reveal' });
+  }
+  /** 対戦終了後に、同じ相手との再戦を希望する */
+  rematch(): boolean {
+    return this.sendAction({ t: 'rematch' });
+  }
+  /** 再戦の希望を取り消す */
+  cancelRematch(): boolean {
+    return this.sendAction({ t: 'rematch_cancel' });
   }
 
   /** サーバーの期限（サーバー時刻）を、自分の時計での時刻に直す */

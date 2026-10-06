@@ -60,6 +60,13 @@ export interface OnlineMatchState {
   winner: Seat | null;
   endReason: EndReason | null;
   forfeitedBy: Seat | null;
+
+  /** 再戦を希望した席（両者が揃うと、同じ2人でデッキ構築からやり直す） */
+  rematchVotes: Record<Seat, boolean>;
+  /** 何戦目か（最初の対戦が1。再戦のたびに増える） */
+  matchNumber: number;
+  /** 各席が最後に提出したデッキのカードID。再戦のデッキ構築で、前回のデッキを入れた状態から始めるために保持する */
+  lastDeckIds: Record<Seat, string[]>;
 }
 
 /**
@@ -102,4 +109,11 @@ export interface OnlineView {
   endReason: EndReason | null;
   /** 不戦敗になった側（視点席から見て） */
   forfeitedBy: 'self' | 'enemy' | null;
+
+  rematchSelfVoted: boolean;
+  rematchEnemyVoted: boolean;
+  /** 何戦目か（最初の対戦が1） */
+  matchNumber: number;
+  /** 本人が最後に提出したデッキのカードID（プレイヤー本人のみ。相手や観戦者には渡さない） */
+  selfLastDeckIds: string[];
 }

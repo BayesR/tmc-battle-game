@@ -10,7 +10,7 @@ import rawCardPool from '../src/data/cardPool.json';
  * 試合のルールは src/online/room.ts にあり、ここはそれをCloudflareの仕組みにつなぐだけの薄い層。
  *   - 1つのルームコード = 1つの Durable Object（= 1つの Room ロジック）
  *   - 接続・メッセージ・切断を Room ロジックに渡し、Room ロジックが送りたいメッセージを接続に送る
- *   - 期限（制限時間・切断の猶予）は Durable Object の alarm で起こす（Room ロジックの nextDeadline() に合わせる）
+ *   - 期限（制限時間・切断の猶予・終了後に閉じる時刻など）は Durable Object の alarm で起こす（Room ロジックの nextDeadline() に合わせる）
  *   - 状態は変更のたびに保存する。サーバーがメモリから消えても、保存した状態から復元して対戦を続けられる
  *
  * 接続URL：  wss://<ワーカーのホスト>/parties/room/<ルームコード>   （開発用サーバーと同じ形）
@@ -22,6 +22,8 @@ interface Env {
   ALLOWED_ORIGINS?: string;
   /** "true" で観戦を許可する（フェーズ1.5） */
   ALLOW_SPECTATORS?: string;
+  /** "false" にすると、新しい接続を全て断る（緊急停止スイッチ。設定を直して再デプロイすると反映される） */
+  ONLINE_ENABLED?: string;
 }
 
 const pool = rawCardPool as CardMaster[];
@@ -46,6 +48,8 @@ export class Room extends Server {
 
   async onConnect(connection: Connection) {
     this.logic.handleOpen(connection.id);
+    // 何も送らない接続を、期限（10秒）で切るための目覚ましを設定する
+    await this.commit();
   }
 
   async onMessage(connection: Connection, message: WSMessage) {
@@ -99,6 +103,8 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const routed = await routePartykitRequest(request, env as unknown as Record<string, unknown>, {
       onBeforeConnect(req, lobby) {
+        // 緊急停止スイッチ：新しい接続を全て断る
+        if (env.ONLINE_ENABLED === 'false') return new Response('Online battles are temporarily unavailable', { status: 503 });
         // 決められた形式のルームコード以外は受け付けない（任意の名前で大量にルームを作られないように）
         if (!isValidRoomCode(lobby.name)) return new Response('Not found', { status: 404 });
         // ブラウザから、許可していないサイトを経由した接続を拒否する（Originの無い通常のクライアントは対象外）

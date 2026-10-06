@@ -17,14 +17,19 @@ interface Props {
   secondsLeft: number | null;
   /** サーバーに拒否された理由 */
   error: string | null;
+  /** 最初から選択済みにしておくカードのID（再戦では、前回のデッキ） */
+  initialDeckIds: string[];
+  /** 何戦目か（2以上なら再戦） */
+  matchNumber: number;
   onSubmit: (cardIds: string[]) => void;
 }
 
 const formatClock = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
 /** オンライン対戦のデッキ構築：全カードから5枚を選んで提出する。保存済みデッキはストーリーモードとは別枠 */
-export function OnlineDeckBuilder({ pool, submitted, enemyName, enemySubmitted, secondsLeft, error, onSubmit }: Props) {
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+export function OnlineDeckBuilder({ pool, submitted, enemyName, enemySubmitted, secondsLeft, error, initialDeckIds, matchNumber, onSubmit }: Props) {
+  // 再戦では、前回のデッキが入った状態から始める（組み替えてもよい）。リロード後に、提出済みのデッキを表示する時にも使う
+  const [selectedIds, setSelectedIds] = useState<string[]>(() => initialDeckIds.filter((id) => pool.some((c) => c.id === id)).slice(0, 5));
   const [savedDecks, setSavedDecks] = useState<SavedDeck[]>(() => loadOnlineDecks());
 
   const selectedIdSet = useMemo(() => new Set(selectedIds), [selectedIds]);
@@ -77,8 +82,10 @@ export function OnlineDeckBuilder({ pool, submitted, enemyName, enemySubmitted, 
   return (
     <div className="flex flex-col gap-4 pb-24">
       <header>
-        <h1 className="text-lg font-extrabold tracking-wide text-white">デッキ構築</h1>
-        <p className="text-xs text-zinc-400">全カードから5枚選んで提出してください。</p>
+        <h1 className="text-lg font-extrabold tracking-wide text-white">デッキ構築{matchNumber > 1 && `（再戦 ${matchNumber}戦目）`}</h1>
+        <p className="text-xs text-zinc-400">
+          {matchNumber > 1 ? '前回のデッキが入っています。そのまま提出することも、組み替えることもできます。' : '全カードから5枚選んで提出してください。'}
+        </p>
         <p className="mt-1 text-[11px] text-zinc-500">
           {enemyName ?? '相手'}：{enemyStatus}
           {secondsLeft !== null && (
