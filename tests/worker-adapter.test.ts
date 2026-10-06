@@ -49,10 +49,18 @@ class FakeStorage {
   }
 }
 
-const ENV = { ALLOWED_ORIGINS: 'https://example.test', ALLOW_SPECTATORS: 'false' };
+const ENV: Record<string, unknown> = { ALLOWED_ORIGINS: 'https://example.test', ALLOW_SPECTATORS: 'false' };
 
-async function boot(storage: FakeStorage) {
-  const d = new RoomDO({ storage }, ENV);
+async function boot(storage: FakeStorage, env: Record<string, unknown> = ENV) {
+  // waitUntil に渡された処理（対戦ログの保存など）を、テストから待てるように溜めておく
+  const ctx = {
+    storage,
+    pending: [] as Promise<unknown>[],
+    waitUntil(p: Promise<unknown>) {
+      this.pending.push(p);
+    },
+  };
+  const d = new RoomDO(ctx, env);
   await d.onStart();
   return d;
 }
@@ -77,8 +85,8 @@ function lastState(conn: FakeConnection) {
 const deckIds = (seed: number) => withSeededMath(seed, () => (generateLevelTunedNpcDeck(CARD_POOL, 'Lv1') ?? []).map((c) => c.id));
 
 /** 2人が参加してデッキを提出し、pick フェーズに入った状態 */
-async function startedRoom(storage = new FakeStorage()) {
-  const d = await boot(storage);
+async function startedRoom(storage = new FakeStorage(), env: Record<string, unknown> = ENV) {
+  const d = await boot(storage, env);
   const a = await connect(d, 'a');
   const b = await connect(d, 'b');
   await say(d, a, { t: 'hello', token: TOKEN_A });
@@ -87,6 +95,9 @@ async function startedRoom(storage = new FakeStorage()) {
   await say(d, b, { t: 'submit_deck', cardIds: deckIds(2) });
   return { d, a, b, storage };
 }
+
+/** waitUntil に渡された処理を、全て待つ */
+const settle = (d: any) => Promise.all(d.ctx.pending);
 
 test('状態が変わるたびに保存され、フェーズに合わせて alarm が設定される', async () => {
   fakeNow = 5_000_000;
@@ -227,6 +238,190 @@ test('再戦の操作が、保存と alarm の更新を伴って動く', async (
   assert.equal(storage.alarm, fakeNow + DECK_TIME_MS, '再戦のデッキ構築の期限に付け替わる');
   assert.equal((storage.data.get('snapshot') as any).state.phase, 'deck');
 });
+
+// ---------------------------------------------------------------------------
+// 対戦ログ（運営者用の匿名統計）：D1への記録と、毎日の掃除
+// ---------------------------------------------------------------------------
+function fakeD1(opts: { fail?: boolean } = {}) {
+  const calls: { sql: string; values: unknown[] }[] = [];
+  const db = {
+    prepare: (sql: string) => ({
+      bind: (...values: unknown[]) => ({
+        run: async () => {
+          if (opts.fail) throw new Error('D1が応答しません');
+          calls.push({ sql, values });
+        },
+      }),
+    }),
+  };
+  return { db, calls };
+}
+
+test('D1が用意されていれば、試合が終わるたびに1行記録される。表示名・tokenは含まれない', async () => {
+  fakeNow = 5_000_000;
+  const { db, calls } = fakeD1();
+  const { d, a, b } = await startedRoom(new FakeStorage(), { ...ENV, DB: db });
+  assert.equal(calls.length, 0, '対戦中は記録しない');
+  await say(d, a, { t: 'leave' }); // Aが退出して不戦敗（両者のデッキは提出済み）
+  await settle(d);
+  assert.equal(calls.length, 1);
+  assert.match(calls[0].sql, /INSERT INTO matches/);
+  assert.equal(calls[0].values[2], 'forfeit');
+  assert.equal(calls[0].values[3], 'B', '勝者の席');
+  const all = JSON.stringify(calls[0].values);
+  assert.ok(!all.includes(TOKEN_A) && !all.includes(TOKEN_B), 'tokenが含まれていない');
+  assert.ok(!all.includes('ジャナー'), '表示名が含まれていない');
+  void b;
+});
+
+test('LOG_MATCHES=false なら、D1があっても記録しない', async () => {
+  fakeNow = 5_000_000;
+  const { db, calls } = fakeD1();
+  const { d, a } = await startedRoom(new FakeStorage(), { ...ENV, DB: db, LOG_MATCHES: 'false' });
+  await say(d, a, { t: 'leave' });
+  await settle(d);
+  assert.equal(calls.length, 0);
+});
+
+test('D1が用意されていなくても、今までどおり動く', async () => {
+  fakeNow = 5_000_000;
+  const { d, a, b } = await startedRoom(new FakeStorage(), ENV);
+  await say(d, a, { t: 'leave' });
+  assert.equal(lastState(b).view.phase, 'finished');
+  assert.equal(d.ctx.pending.length, 0);
+});
+
+test('D1への保存が失敗しても、対戦は止まらず、結果も伝わる', async () => {
+  fakeNow = 5_000_000;
+  const { db } = fakeD1({ fail: true });
+  const original = console.error;
+  const errors: unknown[][] = [];
+  console.error = (...args: unknown[]) => void errors.push(args);
+  try {
+    const { d, a, b } = await startedRoom(new FakeStorage(), { ...ENV, DB: db });
+    await say(d, a, { t: 'leave' });
+    await settle(d); // 失敗は、保存の処理の内側で受け止められ、ここまで例外が出てこない
+    assert.equal(lastState(b).view.phase, 'finished');
+    assert.equal(lastState(b).view.matchWinner, 'self');
+    assert.equal(errors.length, 1, '失敗は、記録として残る（利用者には見えない）');
+  } finally {
+    console.error = original;
+  }
+});
+
+test('毎日の掃除（scheduled）：保存期間を過ぎた記録の削除を実行する。D1が無ければ何もしない', async () => {
+  const { db, calls } = fakeD1();
+  const waiting: Promise<unknown>[] = [];
+  const ctx = { waitUntil: (p: Promise<unknown>) => void waiting.push(p) };
+  const realDateNow = Date.now;
+  Date.now = () => 1_700_000_000_000;
+  try {
+    await (handler as any).scheduled({}, { ...ENV, DB: db, LOG_RETENTION_DAYS: '30' }, ctx);
+    await Promise.all(waiting);
+    assert.equal(calls.length, 1);
+    assert.match(calls[0].sql, /DELETE FROM matches/);
+    assert.deepEqual(calls[0].values, [1_700_000_000 - 30 * 86_400], '設定した日数（30日）で計算される');
+
+    calls.length = 0;
+    await (handler as any).scheduled({}, { ...ENV, DB: db }, ctx);
+    await Promise.all(waiting);
+    assert.deepEqual(calls[0].values, [1_700_000_000 - 90 * 86_400], '未設定なら、既定の90日');
+
+    // D1が無ければ、何も試みない（エラーを記録することもない）
+    const before = waiting.length;
+    const errors: unknown[][] = [];
+    const originalError = console.error;
+    console.error = (...a: unknown[]) => void errors.push(a);
+    try {
+      await assert.doesNotReject((handler as any).scheduled({}, ENV, ctx), 'D1が無くても、例外にならない');
+      await Promise.all(waiting);
+    } finally {
+      console.error = originalError;
+    }
+    assert.equal(waiting.length, before, 'D1が無ければ、削除の処理を始めない');
+    assert.equal(errors.length, 0, 'D1が無くても、毎日エラーが記録されることはない');
+  } finally {
+    Date.now = realDateNow;
+  }
+});
+
+test('毎日の掃除：削除に失敗しても、例外にならない', async () => {
+  const { db } = fakeD1({ fail: true });
+  const waiting: Promise<unknown>[] = [];
+  const original = console.error;
+  console.error = () => undefined;
+  try {
+    await (handler as any).scheduled({}, { ...ENV, DB: db }, { waitUntil: (p: Promise<unknown>) => void waiting.push(p) });
+    await assert.doesNotReject(Promise.all(waiting));
+  } finally {
+    console.error = original;
+  }
+});
+
+let sqliteForAdapter: typeof import('node:sqlite') | null = null;
+try {
+  sqliteForAdapter = require('node:sqlite');
+} catch {
+  sqliteForAdapter = null;
+}
+
+test(
+  '通しの確認（実際のSQLite）：対戦を最後まで進めると、1行が記録され、集計に反映される',
+  { skip: sqliteForAdapter ? false : 'この環境では node:sqlite が使えないため飛ばす' },
+  async () => {
+    const { LOG_SCHEMA_SQL } = require('../src/online/matchLog');
+    const { STATS_REPORTS } = require('../src/online/statsQueries');
+    const raw = new sqliteForAdapter!.DatabaseSync(':memory:');
+    raw.exec(LOG_SCHEMA_SQL);
+    const db = {
+      prepare: (sql: string) => ({
+        bind: (...v: unknown[]) => ({
+          run: async () => {
+            raw.prepare(sql).run(...(v as never[]));
+          },
+        }),
+      }),
+    };
+
+    fakeNow = 5_000_000;
+    const storage = new FakeStorage();
+    const { d, a, b } = await startedRoom(storage, { ...ENV, DB: db });
+    // 時間切れの自動選択・自動進行を繰り返して、最後まで進める
+    for (let i = 0; i < 40 && lastState(a).view.phase !== 'finished'; i++) {
+      fakeNow = storage.alarm!;
+      await d.onAlarm();
+    }
+    assert.equal(lastState(a).view.phase, 'finished');
+    await settle(d);
+
+    const rows = raw.prepare('SELECT * FROM matches').all() as Record<string, unknown>[];
+    assert.equal(rows.length, 1, '1試合につき1行');
+    assert.equal(rows[0].end_reason, 'normal');
+    assert.equal(rows[0].match_number, 1);
+    assert.equal(JSON.parse(String(rows[0].deck_a)).length, 5);
+    assert.equal(JSON.parse(String(rows[0].deck_b)).length, 5);
+    assert.ok(JSON.parse(String(rows[0].rounds)).length >= 5);
+
+    // 保存された記録が、集計に反映される（カードごとの集計に、10枚ぶんのカードが並ぶ）
+    const cards = raw.prepare(STATS_REPORTS.find((r: { key: string }) => r.key === 'cards').sql).all();
+    assert.ok(cards.length >= 5 && cards.length <= 10, `出てきたカードの種類: ${cards.length}`);
+
+    // 再戦すると、2戦目も別の1行として記録される
+    await say(d, a, { t: 'rematch' });
+    await say(d, b, { t: 'rematch' });
+    assert.equal(lastState(a).view.phase, 'deck');
+    const ids = lastState(a).view.selfLastDeckIds;
+    await say(d, a, { t: 'submit_deck', cardIds: ids });
+    await say(d, b, { t: 'submit_deck', cardIds: lastState(b).view.selfLastDeckIds });
+    for (let i = 0; i < 40 && lastState(a).view.phase !== 'finished'; i++) {
+      fakeNow = storage.alarm!;
+      await d.onAlarm();
+    }
+    await settle(d);
+    const after = raw.prepare('SELECT match_number FROM matches ORDER BY id').all() as { match_number: number }[];
+    assert.deepEqual(after.map((x) => x.match_number), [1, 2], '再戦の2戦目は、何戦目かつきで別の行');
+  }
+);
 
 test('バイナリのメッセージは無視される', async () => {
   fakeNow = 5_000_000;

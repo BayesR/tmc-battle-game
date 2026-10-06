@@ -11,7 +11,8 @@
     "lint": "tsc --noEmit",
     "test": "node scripts/run-tests.mjs",
     "dev:online": "node scripts/dev-server.mjs",
-    "smoke:online": "node scripts/online-smoke.mjs"
+    "smoke:online": "node scripts/online-smoke.mjs",
+    "stats": "node scripts/stats.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^1.4.1",

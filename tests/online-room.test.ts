@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Room, type RoomEnv, type RoomSnapshot } from '../src/online/room';
+import type { MatchLogRecord } from '../src/online/matchLog';
 import type { ServerMessage } from '../src/online/protocol';
 import type { OnlineView } from '../src/online/types';
 import {
@@ -28,13 +29,14 @@ class Harness {
   closed = new Set<string>();
   room: Room;
 
-  constructor(opts: { pool?: CardMaster[]; allowSpectators?: boolean; snapshot?: RoomSnapshot; rng?: () => number; startAt?: number } = {}) {
+  constructor(opts: { pool?: CardMaster[]; allowSpectators?: boolean; snapshot?: RoomSnapshot; rng?: () => number; startAt?: number; onMatchFinished?: (r: MatchLogRecord) => void } = {}) {
     if (opts.startAt !== undefined) this.now = opts.startAt;
     const env: RoomEnv = {
       now: () => this.now,
       rng: opts.rng ?? seededRandom(42),
       pool: opts.pool ?? [],
       allowSpectators: opts.allowSpectators,
+      onMatchFinished: opts.onMatchFinished,
     };
     this.room = new Room(
       env,
@@ -659,4 +661,80 @@ test('終了済みの保存データには、閉じる期限が必ず付き、�
   h3.advance(HELLO_TIMEOUT_MS);
   assert.ok(h3.closed.has('x'));
   assert.equal(h3.room.nextDeadline(), null);
+});
+
+// ---------------------------------------------------------------------------
+// 対戦ログ（運営者用の匿名統計）のフック
+// ---------------------------------------------------------------------------
+test('試合が終わると、記録用のフックが1回だけ呼ばれる。表示名やtokenは渡らない', () => {
+  const logs: MatchLogRecord[] = [];
+  const h = startedRoom(undefined, undefined, { onMatchFinished: (r) => logs.push(r) });
+  assert.equal(logs.length, 0, '対戦中は呼ばれない');
+  playOut(h);
+  assert.equal(logs.length, 1);
+  assert.equal(logs[0].endReason, 'normal');
+  assert.equal(logs[0].matchNumber, 1);
+  assert.equal(logs[0].winner, 'A');
+  assert.equal(logs[0].rounds.length, 5);
+  const json = JSON.stringify(logs[0]);
+  assert.ok(!json.includes(TOKEN_A) && !json.includes(TOKEN_B), 'tokenが含まれていない');
+  assert.ok(!json.includes('ジャナー'), '表示名が含まれていない');
+  // 終了後の操作（再戦の希望など）では、呼ばれ直さない
+  h.send('c1', { t: 'rematch' });
+  h.advance(10_000);
+  assert.equal(logs.length, 1);
+});
+
+test('再戦の2戦目も、終わるたびに1回ずつ呼ばれる（何戦目かつき）', () => {
+  const logs: MatchLogRecord[] = [];
+  const dA = deckOf('a', [3, 3, 3, 3, 3]);
+  const dB = deckOf('b', [2, 2, 2, 2, 2]);
+  const h = startedRoom(dA, dB, { onMatchFinished: (r) => logs.push(r) });
+  playOut(h);
+  h.send('c1', { t: 'rematch' });
+  h.send('c2', { t: 'rematch' });
+  h.send('c1', { t: 'submit_deck', cardIds: idsOf(dA) });
+  h.send('c2', { t: 'submit_deck', cardIds: idsOf(dB) });
+  playOut(h);
+  assert.deepEqual(logs.map((l) => l.matchNumber), [1, 2]);
+});
+
+test('両者のデッキが揃った後の不戦敗は記録され、デッキが揃う前の中止は記録されない', () => {
+  const logs: MatchLogRecord[] = [];
+  const h = startedRoom(undefined, undefined, { onMatchFinished: (r) => logs.push(r) });
+  h.send('c1', { t: 'leave' });
+  assert.equal(logs.length, 1);
+  assert.equal(logs[0].endReason, 'forfeit');
+  assert.equal(logs[0].rounds.length, 0);
+
+  const lobby: MatchLogRecord[] = [];
+  const h2 = new Harness({ onMatchFinished: (r) => lobby.push(r) });
+  h2.hello('c1', TOKEN_A);
+  h2.send('c1', { t: 'leave' });
+  assert.equal(h2.room.getState().phase, 'finished');
+  assert.equal(lobby.length, 0, 'ロビーでの中止は記録しない');
+
+  const h3 = new Harness({ onMatchFinished: (r) => lobby.push(r) });
+  h3.hello('c1', TOKEN_A);
+  h3.hello('c2', TOKEN_B);
+  h3.advance(DECK_TIME_MS);
+  assert.equal(lobby.length, 0, 'デッキ構築中の時間切れも記録しない');
+});
+
+test('記録用のフックが例外を投げても、対戦は止まらず、結果も正しく伝わる', () => {
+  const h = startedRoom(undefined, undefined, {
+    onMatchFinished: () => {
+      throw new Error('保存に失敗');
+    },
+  });
+  assert.doesNotThrow(() => playOut(h));
+  assert.equal(h.view('c1').phase, 'finished');
+  assert.equal(h.view('c1').matchWinner, 'self');
+  assert.equal(h.view('c2').matchWinner, 'enemy');
+});
+
+test('フックが無くても（保存先が無い構成でも）、これまでどおり動く', () => {
+  const h = startedRoom();
+  assert.doesNotThrow(() => playOut(h));
+  assert.equal(h.view('c1').phase, 'finished');
 });

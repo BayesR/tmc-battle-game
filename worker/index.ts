@@ -1,5 +1,6 @@
 import { Server, routePartykitRequest, type Connection, type WSMessage } from 'partyserver';
 import { Room as RoomLogic, type RoomSnapshot } from '../src/online/room';
+import { deleteOldMatchLogs, parseRetentionDays, saveMatchLog, type D1Like } from '../src/online/matchLog';
 import { isOriginAllowed, parseAllowedOrigins } from '../src/online/origin';
 import { isValidRoomCode } from '../src/online/roomCode';
 import type { CardMaster } from '../src/types/card';
@@ -13,6 +14,7 @@ import rawCardPool from '../src/data/cardPool.json';
  *   - 接続・メッセージ・切断を Room ロジックに渡し、Room ロジックが送りたいメッセージを接続に送る
  *   - 期限（制限時間・切断の猶予・終了後に閉じる時刻など）は Durable Object の alarm で起こす（Room ロジックの nextDeadline() に合わせる）
  *   - 状態は変更のたびに保存する。サーバーがメモリから消えても、保存した状態から復元して対戦を続けられる
+ *   - 試合が終わるたびに、運営者用の匿名の対戦ログを D1 に1行記録する（D1が無ければ記録しない。src/online/matchLog.ts）
  *
  * 接続URL：  wss://<ワーカーのホスト>/parties/room/<ルームコード>   （開発用サーバーと同じ形）
  */
@@ -25,6 +27,12 @@ interface Env {
   ALLOW_SPECTATORS?: string;
   /** "false" にすると、新しい接続を全て断る（緊急停止スイッチ。設定を直して再デプロイすると反映される） */
   ONLINE_ENABLED?: string;
+  /** 対戦ログ（運営者用の匿名統計）の保存先（D1）。用意していなければ、ログは記録されない */
+  DB?: D1Like;
+  /** "false" にすると、D1があっても対戦ログを記録しない */
+  LOG_MATCHES?: string;
+  /** 対戦ログを残す日数（既定は90日。これより古い記録は、毎日の掃除で削除する） */
+  LOG_RETENTION_DAYS?: string;
 }
 
 const pool = rawCardPool as CardMaster[];
@@ -36,8 +44,18 @@ export class Room extends Server {
   async onStart() {
     const env = this.env as Env;
     const saved = await this.ctx.storage.get<RoomSnapshot>(SNAPSHOT_KEY);
+    // 対戦ログ：D1が用意されていて、止められていなければ、試合が終わるたびに1行記録する（失敗しても対戦には影響しない）
+    const db = env.DB;
+    const onMatchFinished =
+      db && env.LOG_MATCHES !== 'false'
+        ? (record: Parameters<typeof saveMatchLog>[1]) => {
+            const saving = saveMatchLog(db, record).catch((err) => console.error('対戦ログの保存に失敗しました', err));
+            this.ctx.waitUntil(saving);
+          }
+        : undefined;
+
     this.logic = new RoomLogic(
-      { now: () => Date.now(), rng: Math.random, pool, allowSpectators: env.ALLOW_SPECTATORS === 'true' },
+      { now: () => Date.now(), rng: Math.random, pool, allowSpectators: env.ALLOW_SPECTATORS === 'true', onMatchFinished },
       {
         send: (connId, message) => this.getConnection(connId)?.send(JSON.stringify(message)),
         close: (connId) => this.getConnection(connId)?.close(1000, 'closed'),
@@ -111,5 +129,16 @@ export default {
       },
     });
     return routed ?? new Response('TMC online server\n', { status: 200, headers: { 'content-type': 'text/plain; charset=utf-8' } });
+  },
+
+  /** 毎日の掃除（wrangler.jsonc の triggers.crons）：保存期間を過ぎた対戦ログを削除する。D1が無ければ何もしない */
+  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    const db = env.DB;
+    if (!db) return;
+    ctx.waitUntil(
+      deleteOldMatchLogs(db, Date.now(), parseRetentionDays(env.LOG_RETENTION_DAYS)).catch((err) =>
+        console.error('古い対戦ログの削除に失敗しました', err)
+      )
+    );
   },
 } satisfies ExportedHandler<Env>;

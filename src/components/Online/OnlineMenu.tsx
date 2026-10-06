@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { isValidRoomCode, normalizeRoomCode } from '../../online/roomCode';
+import { OnlineNotice } from './OnlineNotice';
 
 interface Props {
   onCreate: () => void;
@@ -71,6 +72,8 @@ export function OnlineMenu({ onCreate, onJoin, onBack }: Props) {
           <p className="mt-2 text-[11px] text-rose-400">コードは6文字です（I・L・O・0・1は使われません）。もう一度確認してください。</p>
         )}
       </div>
+
+      <OnlineNotice />
     </div>
   );
 }

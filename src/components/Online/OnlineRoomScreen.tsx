@@ -7,6 +7,7 @@ import type { EndedReason } from '../../online/client';
 import { OnlineBattleView } from './OnlineBattleView';
 import { OnlineDeckBuilder } from './OnlineDeckBuilder';
 import { OnlineLobby } from './OnlineLobby';
+import { OnlineNotice } from './OnlineNotice';
 import { OnlineResultView } from './OnlineResultView';
 
 interface Props {
@@ -93,6 +94,9 @@ export function OnlineRoomScreen({ roomCode, host, pool, onExit }: Props) {
       </header>
 
       {confirmLeave && <p className="text-center text-[11px] text-rose-300">対戦中に退出すると、不戦敗になります。</p>}
+
+      {/* 招待リンクから来た人はメニューを通らないので、対戦が始まる前の画面（ロビー・デッキ構築）にも出す */}
+      {(phase === 'lobby' || phase === 'deck') && <OnlineNotice />}
 
       {(status === 'connecting' || status === 'reconnecting') && (
         <p className="rounded-lg bg-zinc-900 px-3 py-2 text-center text-[11px] text-zinc-300" data-testid="connection-banner">

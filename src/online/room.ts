@@ -10,6 +10,7 @@ import {
   PICK_TIME_MS,
   REVEAL_AUTO_ADVANCE_MS,
 } from './constants';
+import { buildMatchLog, type MatchLogRecord } from './matchLog';
 import { createInitialOnlineState, onlineReducer, viewFor, type OnlineAction, type OnlineError } from './match';
 import { generateOnlineName } from './names';
 import { parseClientMessage, type RoomTimers, type ServerMessage } from './protocol';
@@ -41,6 +42,11 @@ export interface RoomEnv {
   pool: readonly CardMaster[];
   /** 観戦を許可するか（フェーズ1.5で有効化する。既定は無効） */
   allowSpectators?: boolean;
+  /**
+   * 両者のデッキが揃った試合が終わった時に呼ばれる（運営者用の匿名統計。保存先はルームは知らない）。
+   * ここで例外が出ても、対戦には影響しない。再戦の2戦目以降も、終わるたびに1回ずつ呼ばれる
+   */
+  onMatchFinished?: (record: MatchLogRecord) => void;
 }
 
 type Role = Seat | 'spectator';
@@ -331,9 +337,23 @@ export class Room {
       }
       return;
     }
+    const wasFinished = this.state.phase === 'finished';
     this.state = result.state;
     this.syncDeadlines();
     this.broadcast();
+    if (!wasFinished && this.state.phase === 'finished') this.reportFinished();
+  }
+
+  /** 試合の終了を、記録用のフックに知らせる。フックの失敗は、対戦に影響させない */
+  private reportFinished(): void {
+    const hook = this.env.onMatchFinished;
+    if (!hook) return;
+    try {
+      const record = buildMatchLog(this.state, this.env.now());
+      if (record) hook(record);
+    } catch {
+      // 記録の失敗で、対戦を止めない
+    }
   }
 
   /** フェーズに合わせて期限を付け外しする（各ラウンドごとに選択の期限は新しく付け直される） */
