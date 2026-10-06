@@ -61,8 +61,22 @@ export function OnlineBattleView({ view, client, snapshot }: Props) {
   const pickSeconds = useCountdownSeconds(snapshot.timers?.pickDeadlineAt, client);
   const revealSeconds = useCountdownSeconds(snapshot.timers?.revealDeadlineAt, client);
 
+  // 盤面に裏向きで置くのは、「決定」を押して確定したカード、または手札から選んでいる最中のカード
   const lockedCard = view.selfPickId ? view.selfRemaining.find((c) => c.instanceId === view.selfPickId) : undefined;
-  const layout = layoutBoard({ phase: view.phase, board: view.board, pulling, lockedCard, hiddenCard: HIDDEN_CARD });
+  const selectedCard = !view.selfHasPicked && selectedId ? view.selfRemaining.find((c) => c.instanceId === selectedId) : undefined;
+  const layout = layoutBoard({
+    phase: view.phase,
+    board: view.board,
+    pulling,
+    selfPendingCard: lockedCard ?? selectedCard,
+    locked: lockedCard !== undefined,
+    hiddenCard: HIDDEN_CARD,
+  });
+
+  // 盤面の裏向きのカードの表示：演出中は「PULL UP」、確定後は「確定」、選択中は表示なし（代わりに「決定」ボタンを重ねる）
+  const pendingLabel = layout.pendingKind === 'pulling' ? 'PULL UP' : layout.pendingKind === 'locked' ? '確定' : null;
+  const pendingAction =
+    layout.pendingKind === 'selecting' && selectedCard ? { label: '決定', onClick: () => client.pick(selectedCard.instanceId) } : null;
 
   const isFinalStep =
     view.phase === 'reveal' &&
@@ -77,7 +91,8 @@ export function OnlineBattleView({ view, client, snapshot }: Props) {
         board={layout.board}
         revealIndex={layout.revealIndex}
         pendingCards={layout.pendingCards}
-        pendingLabel={pulling ? 'PULL UP' : '確定'}
+        pendingLabel={pendingLabel}
+        pendingAction={pendingAction}
       />
 
       {pulling && (
@@ -97,15 +112,9 @@ export function OnlineBattleView({ view, client, snapshot }: Props) {
           />
 
           {!view.selfHasPicked ? (
-            <button
-              onClick={() => selectedId && client.pick(selectedId)}
-              disabled={!selectedId}
-              className={`mx-auto w-full max-w-xs rounded-full py-2.5 text-sm font-extrabold ${
-                selectedId ? 'bg-rose-500 text-white hover:bg-rose-400 active:scale-[0.98]' : 'cursor-not-allowed bg-zinc-800 text-zinc-500'
-              }`}
-            >
-              {selectedId ? 'このカードで決定' : 'カードを選んでください'}
-            </button>
+            <p className="text-center text-[12px] font-bold text-sky-300" data-testid="pick-hint">
+              {selectedCard ? '盤面のカードの「決定」を押すと確定します（それまでは選び直せます）' : 'カードを選んでください'}
+            </p>
           ) : (
             <p className="text-center text-[12px] font-bold text-amber-300">
               {view.enemyHasPicked ? '公開します…' : `${enemyName}の選択を待っています…`}

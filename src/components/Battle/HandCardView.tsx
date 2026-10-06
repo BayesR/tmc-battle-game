@@ -33,6 +33,7 @@ export function HandCardView({ card, selected, disabled, stampText, stampColor, 
   return (
     <button
       type="button"
+      data-instance-id={card.instanceId}
       onClick={onClick}
       disabled={disabled}
       className={`relative shrink-0 overflow-hidden rounded-2xl text-left ${rarityClass}`}

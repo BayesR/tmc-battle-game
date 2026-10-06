@@ -23,38 +23,60 @@ export function isPullingUp(phase: OnlinePhase, roundCount: number, revealedCoun
   return phase === 'reveal' && roundCount > revealedCount;
 }
 
+/**
+ * 盤面の「次の枠」に置かれているカードの状態
+ *   - selecting：手札から選んだだけ（まだ「決定」を押していない）。選び直せる。カードの上に「決定」ボタンを出す
+ *   - locked   ：「決定」を押して確定済み（相手の決定待ち）。変更できない
+ *   - pulling  ：両者が決定し、公開を待つ演出中
+ */
+export type PendingKind = 'selecting' | 'locked' | 'pulling';
+
 export interface BoardLayout {
   /** 盤面に置く、結果が確定済みのラウンド */
   board: RoundRecord[];
-  /** 裏向きで次の枠に置くカード（選択済み・公開前） */
+  /** 裏向きで次の枠に置くカード（選択中・確定済み・公開前） */
   pendingCards: { selfCard: DeckCard; enemyCard: DeckCard } | null;
   /** 表向きで公開中のラウンドの位置（なければ -1） */
   revealIndex: number;
+  /** 裏向きのカードの状態（置かれていなければ null） */
+  pendingKind: PendingKind | null;
 }
 
 export function layoutBoard(args: {
   phase: OnlinePhase;
   board: RoundRecord[];
   pulling: boolean;
-  /** 自分が選択を確定したカード（相手の決定待ちの間） */
-  lockedCard: DeckCard | undefined;
+  /** 自分が手札から選んでいる（または確定した）カード */
+  selfPendingCard: DeckCard | undefined;
+  /** 「決定」を押して確定済みか */
+  locked: boolean;
   /** 相手の未公開のカードの代わりに置く、裏向き専用のダミー */
   hiddenCard: DeckCard;
 }): BoardLayout {
-  const { phase, board, pulling, lockedCard, hiddenCard } = args;
+  const { phase, board, pulling, selfPendingCard, locked, hiddenCard } = args;
 
   // 演出中：直近のラウンドを、まだ表にせず、両者とも裏向きで置く
   if (pulling && board.length > 0) {
     const last = board[board.length - 1];
-    return { board: board.slice(0, -1), pendingCards: { selfCard: last.selfCard, enemyCard: last.enemyCard }, revealIndex: -1 };
+    return {
+      board: board.slice(0, -1),
+      pendingCards: { selfCard: last.selfCard, enemyCard: last.enemyCard },
+      revealIndex: -1,
+      pendingKind: 'pulling',
+    };
   }
   // 公開中：直近のラウンドを、両者とも表向きで見せる
   if (phase === 'reveal') {
-    return { board, pendingCards: null, revealIndex: board.length - 1 };
+    return { board, pendingCards: null, revealIndex: board.length - 1, pendingKind: null };
   }
-  // 自分だけ決定済み：自分のカードを裏向きで置き、相手のカードは裏向きのダミーを置く
-  if (phase === 'pick' && lockedCard) {
-    return { board, pendingCards: { selfCard: lockedCard, enemyCard: hiddenCard }, revealIndex: -1 };
+  // 選択中・確定済み：自分のカードを裏向きで置き、相手のカードは裏向きのダミーを置く
+  if (phase === 'pick' && selfPendingCard) {
+    return {
+      board,
+      pendingCards: { selfCard: selfPendingCard, enemyCard: hiddenCard },
+      revealIndex: -1,
+      pendingKind: locked ? 'locked' : 'selecting',
+    };
   }
-  return { board, pendingCards: null, revealIndex: -1 };
+  return { board, pendingCards: null, revealIndex: -1, pendingKind: null };
 }
