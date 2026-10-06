@@ -79,7 +79,7 @@ npx wrangler deploy
 
 | 項目 | 内容 |
 |---|---|
-| `ALLOWED_ORIGINS` | ブラウザからの接続を許可するサイト（カンマ区切り）。Vercelの確認用デプロイ（ブランチごとのURL）から接続するときは、そのURLを追加する |
+| `ALLOWED_ORIGINS` | ブラウザからの接続を許可するサイト（カンマ区切り）。`*` を含むパターン（例：`https://tmc-battle-game-*-bayes-r.vercel.app`）も使える。`*` は「英小文字・数字・ハイフン」にだけ一致し、ドットには一致しない（別のドメインに紛れ込めない）。Vercelの確認用デプロイから接続するときは、そのURLが許可されている必要がある |
 | `ALLOW_SPECTATORS` | `"true"` で観戦を許可（フェーズ1.5で使用） |
 | `ONLINE_ENABLED` | `"false"` で、新しい接続を全て断る（緊急停止スイッチ） |
 

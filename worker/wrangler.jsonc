@@ -7,9 +7,12 @@
   },
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }],
   "vars": {
-    // 接続を許可するサイト。開発用のlocalhostと、公開中のゲームのURL。
-    // Vercelの確認用デプロイ（ブランチごとのURL）から接続する場合は、そのURLもここに追加する。
-    "ALLOWED_ORIGINS": "http://localhost:5173,https://tmc-battle-game.vercel.app",
+    // 接続を許可するサイト（カンマ区切り）。* は「英小文字・数字・ハイフン」にだけ一致する。
+    //   - localhost:5173 … 自分のPCでの開発用
+    //   - tmc-battle-game.vercel.app … 公開中のゲーム
+    //   - tmc-battle-game-git-online-battle-bayes-r.vercel.app … Vercelの確認用デプロイ（ブランチ）
+    //   - tmc-battle-game-*-bayes-r.vercel.app … Vercelの確認用デプロイ（コミットごとに発行されるURLも含む）
+    "ALLOWED_ORIGINS": "http://localhost:5173,https://tmc-battle-game.vercel.app,https://tmc-battle-game-git-online-battle-bayes-r.vercel.app,https://tmc-battle-game-*-bayes-r.vercel.app",
     "ALLOW_SPECTATORS": "false",
     // 緊急停止スイッチ。"false" にして再デプロイ（npx wrangler deploy）すると、新しい接続を全て断る
     "ONLINE_ENABLED": "true"

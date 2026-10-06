@@ -261,6 +261,14 @@ test('入口：許可していないサイトからのブラウザ接続は403�
   assert.equal((await handler.fetch(wsRequest('/parties/room/ABCDEF', 'https://anything.example'), { ...ENV, ALLOWED_ORIGINS: '' })).status, 200);
 });
 
+test('入口：パターン（*）で、確認用デプロイのURLを許可し、他のアカウントのURLは403', async () => {
+  const env = { ...ENV, ALLOWED_ORIGINS: 'https://tmc-battle-game.vercel.app,https://tmc-battle-game-*-bayes-r.vercel.app' };
+  const ok = ['https://tmc-battle-game-git-online-battle-bayes-r.vercel.app', 'https://tmc-battle-game-duvn0y1np-bayes-r.vercel.app'];
+  for (const origin of ok) assert.equal((await handler.fetch(wsRequest('/parties/room/ABCDEF', origin), env)).status, 200, origin);
+  const ng = ['https://tmc-battle-game-x-someoneelse.vercel.app', 'https://tmc-battle-game-a.b-bayes-r.vercel.app'];
+  for (const origin of ng) assert.equal((await handler.fetch(wsRequest('/parties/room/ABCDEF', origin), env)).status, 403, origin);
+});
+
 test('入口：緊急停止スイッチ（ONLINE_ENABLED=false）で、新しい接続を全て断る', async () => {
   const off = await handler.fetch(wsRequest('/parties/room/ABCDEF'), { ...ENV, ONLINE_ENABLED: 'false' });
   assert.equal(off.status, 503);

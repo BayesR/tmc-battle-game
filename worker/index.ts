@@ -1,5 +1,6 @@
 import { Server, routePartykitRequest, type Connection, type WSMessage } from 'partyserver';
 import { Room as RoomLogic, type RoomSnapshot } from '../src/online/room';
+import { isOriginAllowed, parseAllowedOrigins } from '../src/online/origin';
 import { isValidRoomCode } from '../src/online/roomCode';
 import type { CardMaster } from '../src/types/card';
 import rawCardPool from '../src/data/cardPool.json';
@@ -92,13 +93,6 @@ export class Room extends Server {
   }
 }
 
-function allowedOrigins(env: Env): string[] {
-  return (env.ALLOWED_ORIGINS ?? '')
-    .split(',')
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
-}
-
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const routed = await routePartykitRequest(request, env as unknown as Record<string, unknown>, {
@@ -109,8 +103,8 @@ export default {
         if (!isValidRoomCode(lobby.name)) return new Response('Not found', { status: 404 });
         // ブラウザから、許可していないサイトを経由した接続を拒否する（Originの無い通常のクライアントは対象外）
         const origin = req.headers.get('Origin');
-        const allowed = allowedOrigins(env);
-        if (origin && allowed.length > 0 && !allowed.includes(origin)) return new Response('Forbidden', { status: 403 });
+        const allowed = parseAllowedOrigins(env.ALLOWED_ORIGINS);
+        if (origin && allowed.length > 0 && !isOriginAllowed(origin, allowed)) return new Response('Forbidden', { status: 403 });
       },
       onBeforeRequest() {
         return new Response('Not found', { status: 404 }); // WebSocket以外のリクエストは受け付けない
