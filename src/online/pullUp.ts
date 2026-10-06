@@ -24,9 +24,10 @@ export function isPullingUp(phase: OnlinePhase, roundCount: number, revealedCoun
 }
 
 /**
- * 盤面の「次の枠」に置かれているカードの状態
- *   - selecting：手札から選んだだけ（まだ「決定」を押していない）。選び直せる。カードの上に「決定」ボタンを出す
- *   - locked   ：「決定」を押して確定済み（相手の決定待ち）。変更できない
+ * 盤面の「次の枠」に置かれているカードの状態（ストリート・NPC対戦と同じ流れ）
+ *   - selecting：手札から選んだだけ（まだ決定していない）。手札には「JANO」、盤面の裏向きのカードには「PULL UP」が出る。
+ *                選び直せる。盤面の「PULL UP」のカードをタップすると、カードが決定する
+ *   - locked   ：決定済み（相手の決定待ち）。「確定」が出る。変更できない
  *   - pulling  ：両者が決定し、公開を待つ演出中
  */
 export type PendingKind = 'selecting' | 'locked' | 'pulling';
@@ -46,9 +47,9 @@ export function layoutBoard(args: {
   phase: OnlinePhase;
   board: RoundRecord[];
   pulling: boolean;
-  /** 自分が手札から選んでいる（または確定した）カード */
+  /** 自分が手札から選んでいる（または決定した）カード */
   selfPendingCard: DeckCard | undefined;
-  /** 「決定」を押して確定済みか */
+  /** 決定済みか */
   locked: boolean;
   /** 相手の未公開のカードの代わりに置く、裏向き専用のダミー */
   hiddenCard: DeckCard;
@@ -79,4 +80,15 @@ export function layoutBoard(args: {
     };
   }
   return { board, pendingCards: null, revealIndex: -1, pendingKind: null };
+}
+
+/** 盤面の裏向きのカードに出す表示。選択中と演出中は「PULL UP」、決定済みは「確定」 */
+export function pendingLabelFor(kind: PendingKind | null): string | null {
+  if (kind === null) return null;
+  return kind === 'locked' ? '確定' : 'PULL UP';
+}
+
+/** 盤面の裏向きのカードをタップして、決定できる状態か（選択中だけ。決定済み・演出中は押せない） */
+export function isPullUpTappable(kind: PendingKind | null): boolean {
+  return kind === 'selecting';
 }

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PULL_UP_MS, isPullingUp, layoutBoard } from '../src/online/pullUp';
+import { PULL_UP_MS, isPullUpTappable, isPullingUp, layoutBoard, pendingLabelFor } from '../src/online/pullUp';
 import { compareCards } from '../src/logic/compareCards';
 import { toDeckCard } from '../src/types/card';
 import type { RoundRecord } from '../src/types/game';
@@ -45,7 +45,7 @@ test('演出後：直近のラウンドを、両者表向きで公開する', ()
   assert.equal(l.pendingCards, null);
 });
 
-test('選択中（未確定）：選んだカードを裏向きで置き、「決定」を出す状態になる。選び直すと入れ替わる', () => {
+test('選択中（未決定）：選んだカードを裏向きで置く。選び直すと入れ替わる', () => {
   const board = [record(0, 3, 2)];
   const first = card('a8', 3, 'A');
   const second = card('a9', 2, 'A');
@@ -61,7 +61,7 @@ test('選択中（未確定）：選んだカードを裏向きで置き、「�
   assert.equal(l2.pendingCards?.selfCard.id, 'a9', '盤面の裏向きのカードが入れ替わる');
 });
 
-test('確定済み：「決定」は出さず（pendingKind が locked）、確定したカードを裏向きで置く', () => {
+test('決定済み：決定したカードを裏向きで置く（pendingKind が locked）', () => {
   const board = [record(0, 3, 2)];
   const mine = card('a9', 3, 'A');
   const l = layoutBoard({ phase: 'pick', board, pulling: false, selfPendingCard: mine, locked: true, hiddenCard: HIDDEN });
@@ -77,10 +77,10 @@ test('何も選んでいなければ、何も置かない。公開中・演出�
   assert.equal(none.revealIndex, -1);
 
   const revealed = layoutBoard({ phase: 'reveal', board, pulling: false, selfPendingCard: undefined, locked: false, hiddenCard: HIDDEN });
-  assert.equal(revealed.pendingKind, null, '公開中は「決定」を出さない');
+  assert.equal(revealed.pendingKind, null, '公開中は、裏向きのカードを置かない');
   const pulling = layoutBoard({ phase: 'reveal', board, pulling: true, selfPendingCard: undefined, locked: false, hiddenCard: HIDDEN });
   assert.equal(pulling.pendingKind, 'pulling');
-  // 公開フェーズでは、選択中のカードがあっても「決定」を出さない（選択はもう終わっている）
+  // 公開フェーズでは、選択中のカードがあっても裏向きに置かない（選択はもう終わっている）
   const stale = layoutBoard({ phase: 'reveal', board, pulling: false, selfPendingCard: card('a7', 3, 'A'), locked: false, hiddenCard: HIDDEN });
   assert.equal(stale.pendingKind, null);
 });
@@ -89,4 +89,18 @@ test('盤面が空でも、演出中の判定で例外にならない', () => {
   const l = layoutBoard({ phase: 'reveal', board: [], pulling: true, selfPendingCard: undefined, locked: false, hiddenCard: HIDDEN });
   assert.equal(l.board.length, 0);
   assert.equal(l.pendingCards, null);
+});
+
+test('裏向きのカードの表示：選択中と演出中は「PULL UP」、決定済みは「確定」、置いていなければ表示なし', () => {
+  assert.equal(pendingLabelFor('selecting'), 'PULL UP');
+  assert.equal(pendingLabelFor('pulling'), 'PULL UP');
+  assert.equal(pendingLabelFor('locked'), '確定');
+  assert.equal(pendingLabelFor(null), null);
+});
+
+test('裏向きのカードをタップして決定できるのは、選択中だけ（決定済み・演出中・置いていない時は押せない）', () => {
+  assert.equal(isPullUpTappable('selecting'), true);
+  assert.equal(isPullUpTappable('locked'), false, '決定済みのカードは、もう一度押しても何も起きない');
+  assert.equal(isPullUpTappable('pulling'), false, '演出中は押せない');
+  assert.equal(isPullUpTappable(null), false);
 });

@@ -3,7 +3,7 @@ import type { DeckCard } from '../../types/card';
 import type { OnlineClient, ClientSnapshot } from '../../online/client';
 import type { OnlineView } from '../../online/types';
 import { useCountdownSeconds } from '../../hooks/useOnlineRoom';
-import { PULL_UP_MS, isPullingUp, layoutBoard } from '../../online/pullUp';
+import { PULL_UP_MS, isPullUpTappable, isPullingUp, layoutBoard, pendingLabelFor } from '../../online/pullUp';
 import { BattleBoard } from '../Battle/BattleBoard';
 import { HandSelector } from '../Battle/HandSelector';
 import { RoundResult } from '../Battle/RoundResult';
@@ -73,10 +73,9 @@ export function OnlineBattleView({ view, client, snapshot }: Props) {
     hiddenCard: HIDDEN_CARD,
   });
 
-  // 盤面の裏向きのカードの表示：演出中は「PULL UP」、確定後は「確定」、選択中は表示なし（代わりに「決定」ボタンを重ねる）
-  const pendingLabel = layout.pendingKind === 'pulling' ? 'PULL UP' : layout.pendingKind === 'locked' ? '確定' : null;
-  const pendingAction =
-    layout.pendingKind === 'selecting' && selectedCard ? { label: '決定', onClick: () => client.pick(selectedCard.instanceId) } : null;
+  // 盤面の裏向きのカード：選択中は「PULL UP」（タップすると決定）、決定後は「確定」、演出中は「PULL UP」（タップ不可）
+  const pendingLabel = pendingLabelFor(layout.pendingKind);
+  const decide = isPullUpTappable(layout.pendingKind) && selectedCard ? () => client.pick(selectedCard.instanceId) : undefined;
 
   const isFinalStep =
     view.phase === 'reveal' &&
@@ -92,7 +91,8 @@ export function OnlineBattleView({ view, client, snapshot }: Props) {
         revealIndex={layout.revealIndex}
         pendingCards={layout.pendingCards}
         pendingLabel={pendingLabel}
-        pendingAction={pendingAction}
+        onPullUp={decide}
+        pullUpSides="self"
       />
 
       {pulling && (
@@ -113,7 +113,7 @@ export function OnlineBattleView({ view, client, snapshot }: Props) {
 
           {!view.selfHasPicked ? (
             <p className="text-center text-[12px] font-bold text-sky-300" data-testid="pick-hint">
-              {selectedCard ? '盤面のカードの「決定」を押すと確定します（それまでは選び直せます）' : 'カードを選んでください'}
+              {selectedCard ? '盤面の「PULL UP」のカードをタップすると決定します（それまでは選び直せます）' : 'カードを選んでください'}
             </p>
           ) : (
             <p className="text-center text-[12px] font-bold text-amber-300">

@@ -94,8 +94,11 @@ interface Props {
   onPullUp?: () => void;
   /** 裏向きに置いた自分のカードに表示する文言（既定は「PULL UP」。null なら何も表示しない） */
   pendingLabel?: string | null;
-  /** 裏向きに置いた自分のカードの上に重ねて出すボタン（オンライン対戦の「決定」など） */
-  pendingAction?: { label: string; onClick: () => void } | null;
+  /**
+   * 裏向きのカードのうち、タップで onPullUp を実行する側。既定は両方（NPC対戦・バトルストリート）。
+   * オンライン対戦では、相手側の裏向きのカードをタップしても決定されないよう、'self'（自分のカードだけ）にする
+   */
+  pullUpSides?: 'both' | 'self';
 }
 
 /**
@@ -104,7 +107,7 @@ interface Props {
  * 自分・相手のカードは同じサイズで表示する。画面幅が足りない場合は横スクロールするが、
  * 相手列・自分列は1つの共有スクロール領域にまとめてあり、常に一緒に動く（列がずれない）。
  */
-export function BattleBoard({ board, revealIndex = -1, pendingCards = null, onPullUp, pendingLabel, pendingAction = null }: Props) {
+export function BattleBoard({ board, revealIndex = -1, pendingCards = null, onPullUp, pendingLabel, pullUpSides = 'both' }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const slots: { record: SlotProps['record']; override: SlotOverride; pending: boolean }[] = Array.from({
@@ -165,61 +168,24 @@ export function BattleBoard({ board, revealIndex = -1, pendingCards = null, onPu
                 record={s.record}
                 side="enemy"
                 override={s.override}
-                onClick={s.pending ? onPullUp : undefined}
+                onClick={s.pending && pullUpSides === 'both' ? onPullUp : undefined}
                 roundEffect={i === revealIndex ? roundEffects.enemy : null}
                 pendingLabel={pendingLabel}
               />
             ))}
           </div>
           <div className="flex justify-center gap-1.5">
-            {slots.map((s, i) => {
-              const slot = (
-                <BoardSlot
-                  key={`s-${i}`}
-                  record={s.record}
-                  side="self"
-                  override={s.override}
-                  onClick={s.pending ? onPullUp : undefined}
-                  roundEffect={i === revealIndex ? roundEffects.self : null}
-                  pendingLabel={pendingLabel}
-                />
-              );
-              // 裏向きに置いた自分のカードの上に、ボタンを重ねて出す（カードそのものは操作の対象にしない）
-              if (s.pending && pendingAction) {
-                return (
-                  <div key={`s-${i}`} style={{ position: 'relative', width: BOARD_SLOT_WIDTH, flexShrink: 0 }}>
-                    {slot}
-                    <button
-                      type="button"
-                      data-testid="decide-button"
-                      onClick={pendingAction.onClick}
-                      style={{
-                        position: 'absolute',
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        zIndex: 5,
-                        minWidth: 76,
-                        height: 42,
-                        padding: '0 14px',
-                        borderRadius: 9999,
-                        border: 'none',
-                        background: '#f43f5e',
-                        color: '#ffffff',
-                        fontSize: 15,
-                        fontWeight: 800,
-                        letterSpacing: '0.12em',
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.55), 0 0 0 2px rgba(255,255,255,0.85)',
-                      }}
-                    >
-                      {pendingAction.label}
-                    </button>
-                  </div>
-                );
-              }
-              return slot;
-            })}
+            {slots.map((s, i) => (
+              <BoardSlot
+                key={`s-${i}`}
+                record={s.record}
+                side="self"
+                override={s.override}
+                onClick={s.pending ? onPullUp : undefined}
+                roundEffect={i === revealIndex ? roundEffects.self : null}
+                pendingLabel={pendingLabel}
+              />
+            ))}
           </div>
         </div>
       </div>
