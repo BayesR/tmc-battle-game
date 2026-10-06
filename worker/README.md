@@ -91,6 +91,72 @@ npx wrangler deploy
 - 無料プランでは請求は発生しません。上限に達した場合は、請求ではなく、その日の残りが利用できなくなります（毎日0時UTC＝日本時間9時にリセット）
 - 利用が増えたら、有料プラン（月$5〜）や、接続の合間にサーバーを休ませる機能（ハイバネーション）の導入を検討します
 
+## 対戦ログ（運営者用の匿名統計）のセットアップ
+
+試合が終わるたびに、1試合を1行、Cloudflare の D1（データベース）に記録します。カードごとの勝率や、よく使われるデッキが分かり、バランス調整に使えます。
+**D1を用意しなくても、サーバーは今までどおり動きます**（記録されないだけです）。
+
+**記録される内容**：終了時刻（秒）、何戦目か、終わり方、勝者の席（A/B）、両者のデッキ（カードID）、各ラウンドの結果
+**記録されない内容**：表示名、再接続用のtoken、ルームコード、IPアドレス（利用者を特定できる情報は、一切保存しません）
+**保存期間**：90日。毎日（日本時間の午前3時）、これより古い記録を自動で削除します（`LOG_RETENTION_DAYS` で変更できます）
+
+### 手順（初回だけ）
+
+```bash
+cd worker
+npx wrangler d1 create tmc-online-logs
+```
+
+表示された `database_id`（`xxxxxxxx-xxxx-...` の形）をコピーします。「設定ファイルに追加しますか」のように聞かれたら、**いいえ**を選んでください（次の手順で手動で書き換えます。コメントが保たれるためです）。
+
+1. `wrangler.jsonc` を開き、`// "d1_databases": [...]` の行の**行頭の `//` を外して**、`ここに表示されたIDを入れる` の部分を、コピーしたIDに書き換えて保存します。
+2. テーブルを作ります。
+
+```bash
+npx wrangler d1 execute tmc-online-logs --remote --file=schema.sql
+```
+
+3. サーバーを再デプロイします。
+
+```bash
+npx wrangler deploy
+```
+
+4. 動作確認として、ゲーム本体のフォルダで通しの確認を実行します。通しの確認の対戦（2試合）も記録されるので、**確認が済んだら、一度全て消してください**（統計に、確認用の対戦が混ざらないようにするため）。
+
+```bash
+cd ..
+npm run smoke:online -- wss://tmc-online.<サブドメイン>.workers.dev
+cd worker
+npx wrangler d1 execute tmc-online-logs --remote --command "DELETE FROM matches"
+```
+
+### 集計を見る
+
+ゲーム本体のフォルダで、次を実行します。
+
+```bash
+npm run stats               # 全ての集計
+npm run stats -- cards      # カードごとの採用数・勝率だけ（summary / reasons / cards / decks）
+npm run stats -- --dry      # 実行するSQLを表示するだけ
+```
+
+表示される集計：日別の試合数（直近14日）、終わり方の内訳、カードごとの採用数とデッキ勝率・ラウンド勝率、よく使われたデッキ。
+カードは、同じ名前の別のカードを区別するため、**「名前（Legacy・MP・PP・Void）」**の形で表示します（例：`CHARLIE THE FROG（環・MP1・愛+3・Void）`）。デッキは、5枚を1枚ずつ縦に並べて表示します。
+カードごとの集計は、通常の決着の試合だけが対象です。「デッキ勝率」は、そのカードを入れたデッキが試合に勝った割合、「ラウンド勝率」は、そのカードを出したラウンドに勝った割合です。
+
+### 止める・消す
+
+| やりたいこと | 方法 |
+|---|---|
+| 記録を止める | `wrangler.jsonc` の `"LOG_MATCHES"` を `"false"` にして `npx wrangler deploy`（すでにある記録は残る） |
+| 全ての記録を消す | `npx wrangler d1 execute tmc-online-logs --remote --command "DELETE FROM matches"` |
+| 保存期間を変える | `wrangler.jsonc` の `"LOG_RETENTION_DAYS"` を書き換えて `npx wrangler deploy` |
+
+### 料金の目安
+
+D1の無料枠は、書き込みが1日10万行、保存が合計5GBまでです（毎日0時UTCにリセット。公式の料金ページによる）。1試合を1行で記録するので、書き込みは1日10万試合まで収まり、保存も数百万試合ぶんの余裕があります。
+
 ## よくあるつまずき
 
 - `npm install` で `ERESOLVE could not resolve`：部品（wrangler / partyserver / @cloudflare/workers-types）のバージョンの組み合わせが合っていません。`package.json` の3つのバージョンを、エラーに出ている最新の組み合わせに合わせてください（2026年10月時点では、workers-types は 5系）
