@@ -8,7 +8,7 @@
   "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }],
   // 対戦ログ（運営者用の匿名統計）を使うときは、npx wrangler d1 create tmc-online-logs を実行し、表示された database_id を
   // 下の行に書いて、行頭の「//」を外す（手順は worker/README.md）。この行が無くても、サーバーは今までどおり動く。
-  // "d1_databases": [{ "binding": "DB", "database_name": "tmc-online-logs", "database_id": "ここに表示されたIDを入れる" }],
+  "d1_databases": [{ "binding": "DB", "database_name": "tmc-online-logs", "database_id": "16e3ad91-6185-4e86-918f-3316994e7baf" }],
   "vars": {
     // 接続を許可するサイト（カンマ区切り）。* は「英小文字・数字・ハイフン」にだけ一致する。
     //   - localhost:5173 … 自分のPCでの開発用
