@@ -4,26 +4,46 @@ import type { NpcProfile } from '../../types/game';
 import { validateDeck } from '../../logic/deckRules';
 import { generateLevelTunedNpcDeck, generateNpcName } from '../../logic/npcDeckGenerator';
 import { loadSavedDecks, persistSavedDecks, type SavedDeck } from '../../logic/savedDecks';
+import { loadOnlineDecks, persistOnlineDecks } from '../../online/onlineDecks';
+import { describeModeSwitch, keepUsableIds, loadNpcCardMode, poolForMode, saveNpcCardMode, type NpcCardMode } from '../../logic/npcCardMode';
 import { CardPoolList } from './CardPoolList';
 import { DeckSummary } from './DeckSummary';
+import { NpcCardModeToggle } from './NpcCardModeToggle';
 import { NpcSetupPanel, type NpcDeckMode } from './NpcSetupPanel';
 import { SavedDeckPanel } from './SavedDeckPanel';
 
 interface Props {
+  /** 所持カード（バトルストリートで集めたカード）のプール */
   pool: CardMaster[];
-  /** 対戦相手（NPC）のデッキ生成・手動作成に使う、所持カード制限のない全カードプール */
+  /** 全カードのプール。対戦相手（NPC）のデッキ生成・手動作成と、「全カード（練習）」モードの自分のデッキに使う */
   fullPool: CardMaster[];
   onStartMatch: (selfDeck: CardMaster[], npc: NpcProfile, npcDeck: CardMaster[]) => void;
 }
 
-export function DeckBuilderScreen({ pool, fullPool, onStartMatch }: Props) {
+function safeLocalStorage(): Storage | null {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
+export function DeckBuilderScreen({ pool: ownedPool, fullPool, onStartMatch }: Props) {
+  // 使えるカード：所持カード（標準）／全カード（練習）。最後に選んだほうを覚えておく
+  const [cardMode, setCardMode] = useState<NpcCardMode>(() => loadNpcCardMode(safeLocalStorage()));
+  const [modeNotice, setModeNotice] = useState<string | null>(null);
+  const pool = useMemo(() => poolForMode(cardMode, ownedPool, fullPool), [cardMode, ownedPool, fullPool]);
+
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [npcLevel, setNpcLevel] = useState<NpcLevel>('Lv1');
   const [npcDeck, setNpcDeck] = useState<CardMaster[] | null>(() => generateLevelTunedNpcDeck(fullPool, 'Lv1'));
   const [npcName, setNpcName] = useState(() => generateNpcName('Lv1'));
   const [npcMode, setNpcMode] = useState<NpcDeckMode>('auto');
   const [npcManualIds, setNpcManualIds] = useState<string[]>([]);
-  const [savedDecks, setSavedDecks] = useState<SavedDeck[]>(() => loadSavedDecks());
+  // 保存済みデッキは、モードごとに別の保存枠：所持カード＝ストーリー用、全カード＝オンライン対戦と共通
+  const [ownedDecks, setOwnedDecks] = useState<SavedDeck[]>(() => loadSavedDecks());
+  const [allDecks, setAllDecks] = useState<SavedDeck[]>(() => loadOnlineDecks());
+  const savedDecks = cardMode === 'all' ? allDecks : ownedDecks;
 
   // 対戦終了後にこの画面へ戻ってきたときなど、常に画面の一番上から表示する
   useEffect(() => {
@@ -83,12 +103,20 @@ export function DeckBuilderScreen({ pool, fullPool, onStartMatch }: Props) {
     );
   }
 
+  function updateSavedDecks(next: SavedDeck[]) {
+    if (cardMode === 'all') {
+      setAllDecks(next);
+      persistOnlineDecks(next);
+    } else {
+      setOwnedDecks(next);
+      persistSavedDecks(next);
+    }
+  }
+
   function handleSaveDeck(name: string) {
     if (!validation.isValid || !name) return;
     const newDeck: SavedDeck = { id: `${Date.now()}`, name, cardIds: selectedIds };
-    const next = [...savedDecks, newDeck];
-    setSavedDecks(next);
-    persistSavedDecks(next);
+    updateSavedDecks([...savedDecks, newDeck]);
   }
 
   function handleLoadDeck(deck: SavedDeck) {
@@ -96,9 +124,18 @@ export function DeckBuilderScreen({ pool, fullPool, onStartMatch }: Props) {
   }
 
   function handleDeleteDeck(id: string) {
-    const next = savedDecks.filter((d) => d.id !== id);
-    setSavedDecks(next);
-    persistSavedDecks(next);
+    updateSavedDecks(savedDecks.filter((d) => d.id !== id));
+  }
+
+  /** 使えるカードを切り替える。選んでいたデッキのうち、新しいプールで使えるカードだけを残す */
+  function handleCardModeChange(next: NpcCardMode) {
+    if (next === cardMode) return;
+    const nextPool = poolForMode(next, ownedPool, fullPool);
+    const kept = keepUsableIds(selectedIds, nextPool);
+    setModeNotice(describeModeSwitch(selectedIds, kept, next));
+    setSelectedIds(kept);
+    setCardMode(next);
+    saveNpcCardMode(safeLocalStorage(), next);
   }
 
   return (
@@ -109,6 +146,8 @@ export function DeckBuilderScreen({ pool, fullPool, onStartMatch }: Props) {
           カードプールから5枚選んでデッキを組みましょう。対戦相手のNPCレベルも選べます。
         </p>
       </header>
+
+      <NpcCardModeToggle mode={cardMode} onChange={handleCardModeChange} notice={modeNotice} />
 
       <NpcSetupPanel
         level={npcLevel}
